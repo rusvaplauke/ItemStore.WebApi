@@ -1,0 +1,6 @@
+@ItemStore.WebApi_HostAddress = http://localhost:5106
+
+GET {{ItemStore.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
