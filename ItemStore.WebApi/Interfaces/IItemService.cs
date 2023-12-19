@@ -6,8 +6,8 @@ namespace ItemStore.WebApi.Interfaces
     {
         List<GetItemDto> GetItems();
         GetItemDto GetItem(int id);
-        GetItemDto PostItem(PostItemDto item);
-        GetItemDto PutItem(PutItemDto item);
+        GetItemDto CreateItem(PostItemDto item);
+        GetItemDto EditItem(PutItemDto item);
         int DeleteItem(int id);
     }
 }

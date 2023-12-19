@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <None Remove="Scripts\001 Create.sql" />
+    <None Remove="Scripts\002 Alter - add soft delete.sql" />
+    <None Remove="Scripts\003 Alter - add modified.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\003 Alter - add modified.sql" />
+    <EmbeddedResource Include="Scripts\002 Alter - add soft delete.sql" />
     <EmbeddedResource Include="Scripts\001 Create.sql" />
   </ItemGroup>
 

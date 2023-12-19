@@ -26,6 +26,8 @@ namespace ItemStore.WebApi
             builder.Services.AddScoped<IItemRepository,ItemRepository>();
             builder.Services.AddScoped<IItemService, ItemService>();
 
+            builder.Services.AddScoped<IBuyingService, BuyingService>();
+
 
             string dbConnectionString = builder.Configuration.GetConnectionString("PostgreConnection");
             builder.Services.AddTransient<IDbConnection>(sp => new NpgsqlConnection(dbConnectionString));

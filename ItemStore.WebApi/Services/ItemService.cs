@@ -1,6 +1,7 @@
 ﻿using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItemStore.WebApi.Services
@@ -16,27 +17,48 @@ namespace ItemStore.WebApi.Services
 
         public int DeleteItem(int id)
         {
-            throw new NotImplementedException();
+            if (_itemRepository.ItemExists(id))
+            {
+                return _itemRepository.DeleteItem(id);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         public GetItemDto GetItem(int id)
         {
-            throw new NotImplementedException();
+            if (_itemRepository.ItemExists(id))
+            {
+                return _itemRepository.GetItem(id);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         public List<GetItemDto> GetItems()
         {
-            throw new NotImplementedException();
+            return _itemRepository.GetItems().ToList();
         }
 
-        public GetItemDto PostItem(PostItemDto item)
+        public GetItemDto CreateItem(PostItemDto item)
         {
-            throw new NotImplementedException();
+            return _itemRepository.CreateItem(item);
         }
 
-        public GetItemDto PutItem(PutItemDto item)
+        public GetItemDto EditItem(PutItemDto item)
         {
-            throw new NotImplementedException();
+            if (_itemRepository.ItemExists(item.Id))
+            {
+                return _itemRepository.EditItem(item);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
     }
 }
