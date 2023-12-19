@@ -1,0 +1,6 @@
+﻿CREATE TABLE items (
+	id serial PRIMARY KEY,
+	name VARCHAR(50),
+	price DECIMAL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
