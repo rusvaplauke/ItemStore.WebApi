@@ -1,4 +1,4 @@
-**2023.12.18 **
+**2023.12.18**
 
 Create an webapi for Item Store.
 Requirements:
