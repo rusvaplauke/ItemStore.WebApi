@@ -34,7 +34,7 @@ namespace ItemStore.WebApi.Controllers
         public IActionResult Post([FromBody] PostItemDto item)
         {
             var createdItem = _itemService.Create(item);
-            return CreatedAtAction(nameof(Post), new { id = createdItem.Id}, createdItem); 
+            return Created(nameof(Post), createdItem);
         }
 
         [HttpPut]

@@ -6,25 +6,26 @@ namespace ItemStore.WebApi.Services
 {
     public class BuyingService : IBuyingService
     {
-        private readonly IItemRepository _itemRepository;
-        public BuyingService(IItemRepository itemRepository)
+        private readonly IItemService _itemService;
+        public BuyingService(IItemService itemService)
         {
-            _itemRepository = itemRepository;
+            _itemService = itemService;
         }
-        //public DiscountResponseDto BuyWithDiscount(DiscountRequestDto request)
-        //{
-        //    // calculate discount
-        //    decimal discount = 0;
-        //    if (request.Quantity >= 20)
-        //        discount = 0.2M;
-        //    else if (request.Quantity >= 10)
-        //        discount = 0.1M;
+        public DiscountResponseDto BuyWithDiscount(DiscountRequestDto request)
+        {
+            // calculate discount
+            decimal afterDisc = 1;
+            if (request.Quantity >= 20)
+                afterDisc = 0.8M;
+            else if (request.Quantity >= 10)
+                afterDisc = 0.9M;
 
-        //    // create object to return total price
-        //    GetItemDto item = _itemRepository.Get(request.ItemId);
-        //    decimal totalPrice = item.Price * request.Quantity * (1 - discount);
+            // create object to return total price
+            GetItemDto item = _itemService.Get(request.ItemId);
+            if (item == null)
+                throw new ArgumentException($"Product with id {request.ItemId} not found.");
 
-        //    return new DiscountResponseDto(request, totalPrice);
-        //}
+            return new DiscountResponseDto(request, item.Price * request.Quantity * afterDisc);
+        }
     }
 }

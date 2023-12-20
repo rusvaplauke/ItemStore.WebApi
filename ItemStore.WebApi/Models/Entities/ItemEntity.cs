@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItemStore.WebApi.Models.Entities
 {
     public class ItemEntity
     {
-        public int Id { get; set; } //= 0;
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; } 
 
         public string Name { get; set; } = "";
 

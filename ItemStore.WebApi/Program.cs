@@ -1,8 +1,10 @@
 
 using DbUp;
+using ItemStore.WebApi.Contexts;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Repositories;
 using ItemStore.WebApi.Services;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Serilog;
 using System.Data;
@@ -23,7 +25,9 @@ namespace ItemStore.WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IItemRepository,ItemRepository>();
+            builder.Services.AddDbContext<DataContext>(o => o.UseInMemoryDatabase("MyDatabase"));
+
+            builder.Services.AddScoped<IItemRepository,EFItemRepository>();
             builder.Services.AddScoped<IItemService, ItemService>();
 
             builder.Services.AddScoped<IBuyingService, BuyingService>();
