@@ -1,8 +1,10 @@
 ﻿using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace ItemStore.WebApi.Services
 {
@@ -15,50 +17,93 @@ namespace ItemStore.WebApi.Services
             _itemRepository = itemRepository;
         }
 
-        public int DeleteItem(int id)
+        public void Delete(int id) 
         {
-            if (_itemRepository.ItemExists(id))
+            if (Get(id) == null) 
+                throw new ArgumentException($"{MethodBase.GetCurrentMethod().Name}: Item with id {id} not found.");
+            
+            var request = new ItemEntity
             {
-                return _itemRepository.DeleteItem(id);
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+                Id = id
+            };
+
+            if (_itemRepository.Delete(request) == 0)
+                throw new Exception($"{MethodBase.GetCurrentMethod().Name}: Something went wrong; item not deleted");
         }
 
-        public GetItemDto GetItem(int id)
+        public GetItemDto Get(int id)
         {
-            if (_itemRepository.ItemExists(id))
+            var request = new ItemEntity
             {
-                return _itemRepository.GetItem(id);
-            }
-            else
+                Id = id
+            };
+
+            var response = _itemRepository.Get(request);
+
+            if (response == null)
+                throw new ArgumentException($"{MethodBase.GetCurrentMethod().Name}: Item with id {id} not found.");
+
+            var result = new GetItemDto
             {
-                throw new ArgumentException();
-            }
+                Id = response.Id,
+                Name = response.Name,
+                Price = response.Price
+            };
+
+            return result;
         }
 
-        public List<GetItemDto> GetItems()
+        public List<GetItemDto> Get()
         {
-            return _itemRepository.GetItems().ToList();
+            var response = _itemRepository.Get();
+
+            if (response == null)
+                throw new ArgumentException($"{MethodBase.GetCurrentMethod().Name}: No items found.");
+
+            var result = response.Select(r => new GetItemDto
+            {
+                Id = r.Id,
+                Name = r.Name,
+                Price = r.Price
+            }).ToList();
+
+            return result;
         }
 
-        public GetItemDto CreateItem(PostItemDto item)
+        public GetItemDto Create(PostItemDto item)
         {
-            return _itemRepository.CreateItem(item);
+            var request = new ItemEntity
+            {
+                Name = item.Name,
+                Price = item.Price
+            };
+
+            var response = _itemRepository.Create(request);
+
+            if (response == 0)
+                throw new Exception($"{MethodBase.GetCurrentMethod().Name}: Something went wrong; item not created"); // nepatinka, nes techniskai id irgi gb 0. gal tada reiktu id kurt ne int, o guid
+
+            return Get(response);
         }
 
-        public GetItemDto EditItem(PutItemDto item)
+        public GetItemDto Edit(PutItemDto item)
         {
-            if (_itemRepository.ItemExists(item.Id))
+            if (Get(item.Id) == null)
+                throw new ArgumentException($"{MethodBase.GetCurrentMethod().Name}: Item with id {item.Id} not found.");
+
+            var request = new ItemEntity
             {
-                return _itemRepository.EditItem(item);
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+                Id = item.Id,
+                Name = item.Name,
+                Price = item.Price
+            };
+
+            var response = _itemRepository.Edit(request);
+
+            if (response == 0)
+                throw new ArgumentException($"{MethodBase.GetCurrentMethod().Name}: No items found.");
+
+            return Get(response);
         }
     }
 }

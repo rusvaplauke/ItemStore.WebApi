@@ -4,10 +4,10 @@ namespace ItemStore.WebApi.Interfaces
 {
     public interface IItemService
     {
-        List<GetItemDto> GetItems();
-        GetItemDto GetItem(int id);
-        GetItemDto CreateItem(PostItemDto item);
-        GetItemDto EditItem(PutItemDto item);
-        int DeleteItem(int id);
+        List<GetItemDto> Get();
+        GetItemDto Get(int id);
+        GetItemDto Create(PostItemDto item);
+        GetItemDto Edit(PutItemDto item);
+        void Delete(int id);
     }
 }

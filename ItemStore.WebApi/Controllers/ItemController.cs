@@ -21,52 +21,33 @@ namespace ItemStore.WebApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_itemService.GetItems());
+            return Ok(_itemService.Get());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try
-            {
-                var item = _itemService.GetItem(id);
-                return Ok(item);
-            }
-            catch (ArgumentException ex) 
-            {
-                string message = $"Item with id {id} not found.";
-                _logger.LogWarning(message);
-                return NotFound(message);
-            }
+            return Ok(_itemService.Get(id));
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] PostItemDto item)
         {
-            _itemService.CreateItem(item); // TODO: return URI, object
-            return Created();
+            var createdItem = _itemService.Create(item);
+            return CreatedAtAction(nameof(Post), new { id = createdItem.Id}, createdItem); 
         }
 
         [HttpPut]
         public IActionResult Put([FromBody] PutItemDto item)
         {
-            return Ok(_itemService.EditItem(item));
+            return Ok(_itemService.Edit(item));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            try
-            {
-                _itemService.DeleteItem(id);
-                return NoContent(); //TODO: retrun id in message
-            }
-            catch (ArgumentException ex)
-            {
-                string message = $"Item with id {id} not found.";
-                _logger.LogWarning(message);
-                return NotFound(message);
-            }
+            _itemService.Delete(id);
+            return NoContent();
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.Entities;
 
 namespace ItemStore.WebApi.Interfaces
 {
     public interface IItemRepository
     {
-        IEnumerable<GetItemDto> GetItems();
-        GetItemDto GetItem(int id);
-        GetItemDto CreateItem(PostItemDto item);
-        GetItemDto EditItem(PutItemDto item);
-        int DeleteItem(int id);
-        bool ItemExists(int id);
+        IEnumerable<ItemEntity> Get();
+        ItemEntity? Get(ItemEntity item);
+        int Create(ItemEntity item);
+        int Edit(ItemEntity item);
+        int Delete(ItemEntity item); 
     }
 }

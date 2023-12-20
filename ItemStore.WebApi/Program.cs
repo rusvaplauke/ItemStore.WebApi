@@ -29,7 +29,7 @@ namespace ItemStore.WebApi
             builder.Services.AddScoped<IBuyingService, BuyingService>();
 
 
-            string dbConnectionString = builder.Configuration.GetConnectionString("PostgreConnection");
+            string dbConnectionString = builder.Configuration.GetConnectionString("PostgreConnection") ?? throw new ArgumentNullException();
             builder.Services.AddTransient<IDbConnection>(sp => new NpgsqlConnection(dbConnectionString));
 
             EnsureDatabase.For.PostgresqlDatabase(dbConnectionString);

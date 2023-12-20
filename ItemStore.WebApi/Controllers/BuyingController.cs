@@ -18,19 +18,19 @@ namespace ItemStore.WebApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet("buy")]
-        public IActionResult Get([FromQuery] DiscountRequestDto request)
-        {
-            try
-            {
-                return Ok(_buyingService.BuyWithDiscount(request));
-            }
-            catch (ArgumentException ex) 
-            {
-                string message = $"Product with id {request.ItemId} not found.";
-                _logger.LogWarning(message);
-                return NotFound(message);
-            }
-        }
+        //[HttpPost("buy/{id}")]
+        //public IActionResult Get([FromBody] DiscountRequestDto request)
+        //{
+        //    try
+        //    {
+        //        return Ok(_buyingService.BuyWithDiscount(request));
+        //    }
+        //    catch (ArgumentException ex) 
+        //    {
+        //        string message = $"Product with id {request.ItemId} not found.";
+        //        _logger.LogWarning(message);
+        //        return NotFound(message);
+        //    }
+        //}
     }
 }
