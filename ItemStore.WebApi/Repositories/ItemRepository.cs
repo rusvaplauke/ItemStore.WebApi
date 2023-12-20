@@ -21,14 +21,14 @@ namespace ItemStore.WebApi.Repositories
         {
             string sql = "UPDATE items SET is_deleted = TRUE WHERE id = @id;"; 
 
-            return _connection.Execute(sql, new {id = item.Id });
+            return _connection.Execute(sql, new {id = item.id });
         }
 
         public ItemEntity? Get(ItemEntity item)
         {
             string sql = "SELECT * FROM items WHERE id = @id AND is_deleted = FALSE;";
 
-            return _connection.QuerySingleOrDefault<ItemEntity>(sql, new { id = item.Id });
+            return _connection.QuerySingleOrDefault<ItemEntity>(sql, new { id = item.id });
         }
 
         public IEnumerable<ItemEntity> Get()

@@ -7,12 +7,12 @@ namespace ItemStore.WebApi.Models.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; } 
+        public int id { get; set; } 
 
-        public string Name { get; set; } = "";
+        public string name { get; set; } = "";
 
-        public decimal Price { get; set; } = 0;
-        public DateTime Created_at { get; set; } = DateTime.UtcNow;
-        public Boolean Is_deleted { get; set; } = false;
+        public decimal price { get; set; } = 0;
+        public DateTime created_at { get; set; } = DateTime.UtcNow;
+        public Boolean is_deleted { get; set; } = false;
     }
 }

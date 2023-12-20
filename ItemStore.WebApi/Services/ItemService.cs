@@ -24,7 +24,7 @@ namespace ItemStore.WebApi.Services
             
             var request = new ItemEntity
             {
-                Id = id
+                id = id
             };
 
             if (_itemRepository.Delete(request) == 0)
@@ -35,7 +35,7 @@ namespace ItemStore.WebApi.Services
         {
             var request = new ItemEntity
             {
-                Id = id
+                id = id
             };
 
             var response = _itemRepository.Get(request);
@@ -45,9 +45,9 @@ namespace ItemStore.WebApi.Services
 
             var result = new GetItemDto
             {
-                Id = response.Id,
-                Name = response.Name,
-                Price = response.Price
+                Id = response.id,
+                Name = response.name,
+                Price = response.price
             };
 
             return result;
@@ -62,9 +62,9 @@ namespace ItemStore.WebApi.Services
 
             var result = response.Select(r => new GetItemDto
             {
-                Id = r.Id,
-                Name = r.Name,
-                Price = r.Price
+                Id = r.id,
+                Name = r.name,
+                Price = r.price
             }).ToList();
 
             return result;
@@ -74,8 +74,8 @@ namespace ItemStore.WebApi.Services
         {
             var request = new ItemEntity
             {
-                Name = item.Name,
-                Price = item.Price
+                name = item.Name,
+                price = item.Price
             };
 
             var response = _itemRepository.Create(request);
@@ -93,9 +93,9 @@ namespace ItemStore.WebApi.Services
 
             var request = new ItemEntity
             {
-                Id = item.Id,
-                Name = item.Name,
-                Price = item.Price
+                id = item.Id,
+                name = item.Name,
+                price = item.Price
             };
 
             var response = _itemRepository.Edit(request);
