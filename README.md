@@ -1,4 +1,4 @@
-2023.12.18 
+**2023.12.18 **
 
 Create an webapi for Item Store.
 Requirements:
@@ -13,7 +13,7 @@ DONE 3. Use Dependency Injection.
 DONE 4. Implement additional action "Buy", where quantity is required. If quantity is more than 10, apply 10% discount.
       If it is more than 20 apply 20% discount.
 
-2023.12.19
+**2023.12.19**
 
 Additional requirements:
 DONE 1. Replace Your Dapper repository with EF Core InMemory Repository.
