@@ -24,5 +24,4 @@ DONE 3. Update your application with DTO/Entity concepts.
 
 Advanced:
 1. Connect EF Core to Postgre. (Investigate Migrations)
-2. 
-3. try to  use AutoMapper to map entities to dtos.
+2. try to  use AutoMapper to map entities to dtos.
