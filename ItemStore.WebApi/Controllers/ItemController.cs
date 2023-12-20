@@ -10,12 +10,10 @@ namespace ItemStore.WebApi.Controllers
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
-        private readonly ILogger<ItemController> _logger;
 
-        public ItemController(IItemService itemService, ILogger<ItemController> logger)
+        public ItemController(IItemService itemService)
         {
             _itemService = itemService;
-            _logger = logger;
         }
 
         [HttpGet]
