@@ -20,7 +20,7 @@ namespace ItemStore.WebApi.Services
         public void Delete(int id) 
         {
             if (Get(id) == null) 
-                throw new ArgumentException($"Item with id {id} not found.");
+                throw new ArgumentNullException($"Item with id {id} not found.");
             
             var request = new ItemEntity
             {
@@ -41,7 +41,7 @@ namespace ItemStore.WebApi.Services
             var response = _itemRepository.Get(request);
 
             if (response == null)
-                throw new ArgumentException($"Item with id {id} not found.");
+                throw new ArgumentNullException($"Item with id {id} not found.");
 
             var result = new GetItemDto
             {
@@ -58,7 +58,7 @@ namespace ItemStore.WebApi.Services
             var response = _itemRepository.Get();
 
             if (response == null)
-                throw new ArgumentException($"No items found."); // so is an empty DbSet not null?
+                throw new ArgumentNullException($"No items found."); // so is an empty DbSet not null?
 
             var result = response.Select(r => new GetItemDto
             {
@@ -89,7 +89,7 @@ namespace ItemStore.WebApi.Services
         public GetItemDto Edit(PutItemDto item)
         {
             if (Get(item.Id) == null)
-                throw new ArgumentException($"Item with id {item.Id} not found.");
+                throw new ArgumentNullException($"Item with id {item.Id} not found.");
 
             var request = new ItemEntity
             {
@@ -101,7 +101,7 @@ namespace ItemStore.WebApi.Services
             var response = _itemRepository.Edit(request);
 
             if (response == 0)
-                throw new ArgumentException($"Something went wrong; no items edited.");
+                throw new ArgumentNullException($"Something went wrong; no items edited.");
 
             return Get(response);
         }

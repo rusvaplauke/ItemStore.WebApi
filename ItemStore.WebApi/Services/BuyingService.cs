@@ -23,7 +23,7 @@ namespace ItemStore.WebApi.Services
             // create object to return total price
             GetItemDto item = _itemService.Get(request.ItemId);
             if (item == null)
-                throw new ArgumentException($"Product with id {request.ItemId} not found.");
+                throw new ArgumentNullException($"Product with id {request.ItemId} not found.");
 
             return new DiscountResponseDto(request, item.Price * request.Quantity * afterDisc);
         }

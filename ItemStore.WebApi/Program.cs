@@ -2,6 +2,7 @@
 using DbUp;
 using ItemStore.WebApi.Contexts;
 using ItemStore.WebApi.Interfaces;
+using ItemStore.WebApi.Middlewares;
 using ItemStore.WebApi.Repositories;
 using ItemStore.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -54,17 +55,21 @@ namespace ItemStore.WebApi
 
             var app = builder.Build();
 
+
+
             // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
