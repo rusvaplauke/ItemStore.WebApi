@@ -1,4 +1,5 @@
 2023.12.18 
+
 Create an webapi for Item Store.
 Requirements:
 DONE 0. Item has Id, Name, Price.
@@ -13,6 +14,7 @@ DONE 4. Implement additional action "Buy", where quantity is required. If quanti
       If it is more than 20 apply 20% discount.
 
 2023.12.19
+
 Additional requirements:
 DONE 1. Replace Your Dapper repository with EF Core InMemory Repository.
 
