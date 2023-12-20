@@ -26,7 +26,8 @@ namespace ItemStore.WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<DataContext>(o => o.UseInMemoryDatabase("MyDatabase"));
+            builder.Services.AddDbContext<PostgreContext>(options =>
+                            options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
 
             builder.Services.AddScoped<IItemRepository,EFItemRepository>();
             builder.Services.AddScoped<IItemService, ItemService>();
