@@ -23,7 +23,7 @@ DONE 2. Your service should  (maybe?) be interchangable with both Dapper and EF 
 DONE 3. Update your application with DTO/Entity concepts.
 
 Advanced:
-IN PROGRESS 1. Connect EF Core to Postgre. (Investigate Migrations)
+DONE 1. Connect EF Core to Postgre. (Investigate Migrations)
 2. try to  use AutoMapper to map entities to dtos.
 
 **2023.12.20**
