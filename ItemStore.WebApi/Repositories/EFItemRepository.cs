@@ -6,9 +6,9 @@ namespace ItemStore.WebApi.Repositories
 {
     public class EFItemRepository : IItemRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly PostgreContext _dataContext;
 
-        public EFItemRepository(DataContext dataContext)
+        public EFItemRepository(PostgreContext dataContext)
         {
             _dataContext = dataContext;
         }
@@ -25,7 +25,7 @@ namespace ItemStore.WebApi.Repositories
         {
             var itemToDelete = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
-            itemToDelete.Is_deleted = true;
+            itemToDelete.IsDeleted = true;
 
             return _dataContext.SaveChanges();  
         }
@@ -44,12 +44,12 @@ namespace ItemStore.WebApi.Repositories
 
         public IEnumerable<ItemEntity> Get()
         {
-            return _dataContext.Items.Where(i => i.Is_deleted == false);
+            return _dataContext.Items.Where(i => i.IsDeleted == false).ToList();
         }
 
         public ItemEntity? Get(ItemEntity item)
         {
-            return _dataContext.Items.FirstOrDefault(i => i.Id == item.Id && i.Is_deleted == false);
+            return _dataContext.Items.FirstOrDefault(i => i.Id == item.Id && i.IsDeleted == false);
         }
     }
 }

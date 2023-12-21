@@ -12,7 +12,7 @@ namespace ItemStore.WebApi.Models.Entities
         public string Name { get; set; } = "";
 
         public decimal Price { get; set; } = 0;
-        public DateTime Created_at { get; set; } = DateTime.UtcNow;
-        public Boolean Is_deleted { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public Boolean IsDeleted { get; set; } = false;
     }
 }
