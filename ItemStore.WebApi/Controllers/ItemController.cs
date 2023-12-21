@@ -11,40 +11,29 @@ namespace ItemStore.WebApi.Controllers
     {
         private readonly IItemService _itemService;
 
-        public ItemController(IItemService itemService)
-        {
-            _itemService = itemService;
-        }
+        public ItemController(IItemService itemService) => _itemService = itemService;
 
         [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_itemService.Get());
-        }
+        public async Task<IActionResult> Get() => Ok(await _itemService.Get());
+
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            return Ok(_itemService.Get(id));
-        }
+        public async Task<IActionResult> Get(int id) => Ok(await _itemService.Get(id));
 
         [HttpPost]
-        public IActionResult Post([FromBody] PostItemDto item)
+        public async Task<IActionResult> Post([FromBody] PostItemDto item)
         {
-            var createdItem = _itemService.Create(item);
+            var createdItem = await _itemService.Create(item);
             return Created(nameof(Post), createdItem);
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] PutItemDto item)
-        {
-            return Ok(_itemService.Edit(item));
-        }
+        public async Task<IActionResult> Put([FromBody] PutItemDto item) => Ok(await _itemService.Edit(item));
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _itemService.Delete(id);
+            await _itemService.Delete(id);
             return NoContent();
         }
     }

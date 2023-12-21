@@ -17,37 +17,39 @@ namespace ItemStore.WebApi.Repositories
             _connection = connection;
         }
 
-        public int Delete(ItemEntity item) 
+        public async Task<int> Delete(ItemEntity item) 
         {
             string sql = "UPDATE items SET is_deleted = TRUE WHERE id = @id;"; 
 
-            return _connection.Execute(sql, new {id = item.Id });
+            return await _connection.ExecuteAsync(sql, new {id = item.Id });
         }
 
-        public ItemEntity? Get(ItemEntity item)
+        public async Task<ItemEntity?> Get(ItemEntity item)
         {
             string sql = "SELECT * FROM items WHERE id = @id AND is_deleted = FALSE;";
 
-            return _connection.QuerySingleOrDefault<ItemEntity>(sql, new { id = item.Id });
+            return await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql, new { id = item.Id });
         }
 
-        public IEnumerable<ItemEntity> Get()
+        public async Task<List<ItemEntity>> Get()
         {
-            return _connection.Query<ItemEntity>("SELECT * FROM items WHERE is_deleted = FALSE;");
+            var result = await _connection.QueryAsync<ItemEntity>("SELECT * FROM items WHERE is_deleted = FALSE;");
+
+            return result.ToList();
         }
 
-        public int Create(ItemEntity item)
+        public async Task<int> Create(ItemEntity item)
         {
             string sql = "INSERT INTO items (name, price) VALUES (@Name, @Price) RETURNING id;";
 
-            return _connection.QuerySingleOrDefault<int>(sql, item);
+            return await _connection.QuerySingleOrDefaultAsync<int>(sql, item);
         }
 
-        public int Edit(ItemEntity item)
+        public async Task<int> Edit(ItemEntity item)
         {
             string sql = "UPDATE items SET name = @Name, price = @Price WHERE id = @Id RETURNING id;";
 
-            return _connection.QuerySingleOrDefault<int>(sql, item);
+            return await _connection.QuerySingleOrDefaultAsync<int>(sql, item);
         }
     }
 }

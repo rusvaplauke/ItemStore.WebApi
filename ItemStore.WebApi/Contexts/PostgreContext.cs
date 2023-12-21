@@ -1,4 +1,6 @@
-﻿using ItemStore.WebApi.Models.Entities;
+﻿// EF with postgre
+
+using ItemStore.WebApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItemStore.WebApi.Contexts

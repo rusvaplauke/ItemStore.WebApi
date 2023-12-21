@@ -11,7 +11,7 @@ namespace ItemStore.WebApi.Services
         {
             _itemService = itemService;
         }
-        public DiscountResponseDto BuyWithDiscount(DiscountRequestDto request)
+        public async Task<DiscountResponseDto> BuyWithDiscount(DiscountRequestDto request)
         {
             // calculate discount
             decimal afterDisc = 1;
@@ -21,7 +21,7 @@ namespace ItemStore.WebApi.Services
                 afterDisc = 0.9M;
 
             // create object to return total price
-            GetItemDto item = _itemService.Get(request.ItemId);
+            GetItemDto item = await _itemService.Get(request.ItemId);
             if (item == null)
                 throw new ArgumentNullException($"Product with id {request.ItemId} not found.");
 

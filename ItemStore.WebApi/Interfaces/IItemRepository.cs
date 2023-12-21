@@ -5,10 +5,10 @@ namespace ItemStore.WebApi.Interfaces
 {
     public interface IItemRepository
     {
-        IEnumerable<ItemEntity> Get();
-        ItemEntity? Get(ItemEntity item);
-        int Create(ItemEntity item);
-        int Edit(ItemEntity item);
-        int Delete(ItemEntity item); 
+        Task<List<ItemEntity>> Get();
+        Task<ItemEntity?> Get(ItemEntity item);
+        Task<int> Create(ItemEntity item);
+        Task<int> Edit(ItemEntity item);
+        Task<int> Delete(ItemEntity item); 
     }
 }
