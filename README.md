@@ -28,6 +28,9 @@ Advanced:
 
 **2023.12.20**
    Update existing ItemStore:
+   
 Employ ExceptionHandlingMiddleware.
+
 Convert the code to Async.
+
 (Advanced) Use Ef Core migrations to create new database and create schema.
