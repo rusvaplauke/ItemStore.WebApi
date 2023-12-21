@@ -25,3 +25,9 @@ DONE 3. Update your application with DTO/Entity concepts.
 Advanced:
 1. Connect EF Core to Postgre. (Investigate Migrations)
 2. try to  use AutoMapper to map entities to dtos.
+
+**2023.12.20**
+   Update existing ItemStore:
+Employ ExceptionHandlingMiddleware.
+Convert the code to Async.
+(Advanced) Use Ef Core migrations to create new database and create schema.
