@@ -15,41 +15,41 @@ namespace ItemStore.WebApi.Repositories
 
         public int Create(ItemEntity item)
         {
-            _dataContext.items.Add(item);
+            _dataContext.Items.Add(item);
             _dataContext.SaveChanges();
 
-            return item.id;
+            return item.Id;
         }
 
         public int Delete(ItemEntity item)
         {
-            var itemToDelete = _dataContext.items.FirstOrDefault(i => i.id == item.id);
+            var itemToDelete = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
-            itemToDelete.is_deleted = true;
+            itemToDelete.IsDeleted = true;
 
             return _dataContext.SaveChanges();  
         }
 
         public int Edit(ItemEntity item)
         {
-            var itemToEdit = _dataContext.items.FirstOrDefault(i => i.id == item.id);
+            var itemToEdit = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
-            itemToEdit.name = item.name;
-            itemToEdit.price = item.price;
+            itemToEdit.Name = item.Name;
+            itemToEdit.Price = item.Price;
 
             _dataContext.SaveChanges();
 
-            return itemToEdit.id;
+            return itemToEdit.Id;
         }
 
         public IEnumerable<ItemEntity> Get()
         {
-            return _dataContext.items.Where(i => i.is_deleted == false).ToList();
+            return _dataContext.Items.Where(i => i.IsDeleted == false).ToList();
         }
 
         public ItemEntity? Get(ItemEntity item)
         {
-            return _dataContext.items.FirstOrDefault(i => i.id == item.id && i.is_deleted == false);
+            return _dataContext.Items.FirstOrDefault(i => i.Id == item.Id && i.IsDeleted == false);
         }
     }
 }
