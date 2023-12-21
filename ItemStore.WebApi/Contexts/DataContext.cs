@@ -1,4 +1,6 @@
-﻿using ItemStore.WebApi.Models.Entities;
+﻿// EF with in-memory
+
+using ItemStore.WebApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItemStore.WebApi.Contexts

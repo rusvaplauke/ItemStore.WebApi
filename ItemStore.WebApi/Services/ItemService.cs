@@ -17,9 +17,9 @@ namespace ItemStore.WebApi.Services
             _itemRepository = itemRepository;
         }
 
-        public void Delete(int id) 
+        public async Task Delete(int id) 
         {
-            if (Get(id) == null) 
+            if (await Get(id) == null) 
                 throw new ArgumentNullException($"Item with id {id} not found.");
             
             var request = new ItemEntity
@@ -27,18 +27,18 @@ namespace ItemStore.WebApi.Services
                 Id = id
             };
 
-            if (_itemRepository.Delete(request) == 0)
+            if (await _itemRepository.Delete(request) == 0)
                 throw new Exception($"Something went wrong; item not deleted");
         }
 
-        public GetItemDto Get(int id)
+        public async Task<GetItemDto> Get(int id)
         {
             var request = new ItemEntity
             {
                 Id = id
             };
 
-            var response = _itemRepository.Get(request);
+            var response = await _itemRepository.Get(request);
 
             if (response == null)
                 throw new ArgumentNullException($"Item with id {id} not found.");
@@ -53,9 +53,9 @@ namespace ItemStore.WebApi.Services
             return result;
         }
 
-        public List<GetItemDto> Get()
+        public async Task<List<GetItemDto>> Get()
         {
-            var response = _itemRepository.Get();
+            var response = await _itemRepository.Get();
 
             if (response == null)
                 throw new ArgumentNullException($"No items found."); // so is an empty DbSet not null?
@@ -70,7 +70,7 @@ namespace ItemStore.WebApi.Services
             return result;
         }
 
-        public GetItemDto Create(PostItemDto item)
+        public async Task<GetItemDto> Create(PostItemDto item)
         {
             var request = new ItemEntity
             {
@@ -78,17 +78,17 @@ namespace ItemStore.WebApi.Services
                 Price = item.Price
             };
 
-            var response = _itemRepository.Create(request);
+            var response = await _itemRepository.Create(request);
 
             if (response == 0)
                 throw new Exception($"Something went wrong; item not created"); // nepatinka, nes techniskai id irgi gb 0. gal tada reiktu id kurt ne int, o guid
 
-            return Get(response);
+            return await Get(response);
         }
 
-        public GetItemDto Edit(PutItemDto item)
+        public async Task<GetItemDto> Edit(PutItemDto item)
         {
-            if (Get(item.Id) == null)
+            if (await Get(item.Id) == null)
                 throw new ArgumentNullException($"Item with id {item.Id} not found.");
 
             var request = new ItemEntity
@@ -98,12 +98,12 @@ namespace ItemStore.WebApi.Services
                 Price = item.Price
             };
 
-            var response = _itemRepository.Edit(request);
+            var response = await _itemRepository.Edit(request);
 
             if (response == 0)
                 throw new ArgumentNullException($"Something went wrong; no items edited.");
 
-            return Get(response);
+            return await Get(response);
         }
     }
 }

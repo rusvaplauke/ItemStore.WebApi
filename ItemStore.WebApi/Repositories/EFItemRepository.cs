@@ -1,6 +1,7 @@
 ﻿using ItemStore.WebApi.Contexts;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItemStore.WebApi.Repositories
 {
@@ -13,43 +14,43 @@ namespace ItemStore.WebApi.Repositories
             _dataContext = dataContext;
         }
 
-        public int Create(ItemEntity item)
+        public async Task<int> Create(ItemEntity item)
         {
             _dataContext.Items.Add(item);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return item.Id;
         }
 
-        public int Delete(ItemEntity item)
+        public async Task<int> Delete(ItemEntity item)
         {
             var itemToDelete = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
             itemToDelete.IsDeleted = true;
 
-            return _dataContext.SaveChanges();  
+            return await _dataContext.SaveChangesAsync();  
         }
 
-        public int Edit(ItemEntity item)
+        public async Task<int> Edit(ItemEntity item)
         {
             var itemToEdit = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
             itemToEdit.Name = item.Name;
             itemToEdit.Price = item.Price;
 
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return itemToEdit.Id;
         }
 
-        public IEnumerable<ItemEntity> Get()
+        public async Task<List<ItemEntity>> Get()
         {
-            return _dataContext.Items.Where(i => i.IsDeleted == false).ToList();
+            return await _dataContext.Items.Where(i => i.IsDeleted == false).ToListAsync();
         }
 
-        public ItemEntity? Get(ItemEntity item)
+        public async Task<ItemEntity?> Get(ItemEntity item)
         {
-            return _dataContext.Items.FirstOrDefault(i => i.Id == item.Id && i.IsDeleted == false);
+            return await _dataContext.Items.FirstOrDefaultAsync(i => i.Id == item.Id && i.IsDeleted == false);
         }
     }
 }
