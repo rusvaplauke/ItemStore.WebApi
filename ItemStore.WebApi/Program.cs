@@ -30,7 +30,7 @@ namespace ItemStore.WebApi
                             options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
 
             builder.Services.AddScoped<IItemRepository,EFItemRepository>();
-            builder.Services.AddScoped<IItemService, ItemService>();
+            builder.Services.AddScoped<ItemService>();
 
             builder.Services.AddScoped<IBuyingService, BuyingService>();
 
