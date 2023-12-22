@@ -52,4 +52,5 @@ Advanced:
 1. Use Fluent Assertions. Add Mock Verify to your tests. Use Autofixture for data generation. Autofixture.xunit2 has AutoData attribute.
 2. Add new User Controller which performs GET, GET By Id, and Create to https://jsonplaceholder.typicode.com/users
 3. Cover GetById with a unit tests.
+   
 Optional, advanced: Have basic data caching for the system (Fetch data and save into database)
