@@ -34,3 +34,17 @@ DONE Employ ExceptionHandlingMiddleware.
 Convert the code to Async.
 
 (Advanced) Use Ef Core migrations to create new database and create schema.
+
+**2023.12.21**
+
+Update TodoStore:
+
+Cover Services with Unit tests. Use Moq and Fluent Assertions. Mark Arrange-Act-Assert
+
+Please create Github repository and push your code to Github.
+
+Advanced:
+
+     1. Research Autofixture.
+     
+     2. Try creating Integration Tests.
