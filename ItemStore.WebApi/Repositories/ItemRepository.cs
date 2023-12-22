@@ -17,18 +17,18 @@ namespace ItemStore.WebApi.Repositories
             _connection = connection;
         }
 
-        public async Task<int> Delete(ItemEntity item) 
+        public async Task<int> Delete(int id) 
         {
             string sql = "UPDATE items SET is_deleted = TRUE WHERE id = @id;"; 
 
-            return await _connection.ExecuteAsync(sql, new {id = item.Id });
+            return await _connection.ExecuteAsync(sql, new {id = id });
         }
 
-        public async Task<ItemEntity?> Get(ItemEntity item)
+        public async Task<ItemEntity?> Get(int id)
         {
             string sql = "SELECT * FROM items WHERE id = @id AND is_deleted = FALSE;";
 
-            return await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql, new { id = item.Id });
+            return await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql, new { id = id });
         }
 
         public async Task<List<ItemEntity>> Get()

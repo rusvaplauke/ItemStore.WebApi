@@ -6,9 +6,9 @@ namespace ItemStore.WebApi.Interfaces
     public interface IItemRepository
     {
         Task<List<ItemEntity>> Get();
-        Task<ItemEntity?> Get(ItemEntity item);
+        Task<ItemEntity?> Get(int id); 
         Task<int> Create(ItemEntity item);
         Task<int> Edit(ItemEntity item);
-        Task<int> Delete(ItemEntity item); 
+        Task<int> Delete(int id); 
     }
 }

@@ -6,8 +6,8 @@ namespace ItemStore.WebApi.Services
 {
     public class BuyingService : IBuyingService
     {
-        private readonly IItemService _itemService;
-        public BuyingService(IItemService itemService)
+        private readonly ItemService _itemService;
+        public BuyingService(ItemService itemService)
         {
             _itemService = itemService;
         }

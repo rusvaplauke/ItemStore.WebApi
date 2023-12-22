@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace ItemStore.WebApi.Services
 {
-    public class ItemService : IItemService
+    public class ItemService 
     {
         private readonly IItemRepository _itemRepository;
 
@@ -22,23 +22,13 @@ namespace ItemStore.WebApi.Services
             if (await Get(id) == null) 
                 throw new ArgumentNullException($"Item with id {id} not found.");
             
-            var request = new ItemEntity
-            {
-                Id = id
-            };
-
-            if (await _itemRepository.Delete(request) == 0)
+            if (await _itemRepository.Delete(id) == 0)
                 throw new Exception($"Something went wrong; item not deleted");
         }
 
         public async Task<GetItemDto> Get(int id)
         {
-            var request = new ItemEntity
-            {
-                Id = id
-            };
-
-            var response = await _itemRepository.Get(request);
+            var response = await _itemRepository.Get(id);
 
             if (response == null)
                 throw new ArgumentNullException($"Item with id {id} not found.");
@@ -57,8 +47,8 @@ namespace ItemStore.WebApi.Services
         {
             var response = await _itemRepository.Get();
 
-            if (response == null)
-                throw new ArgumentNullException($"No items found."); // so is an empty DbSet not null?
+            //if (response == null)
+            //    throw new ArgumentNullException($"No items found."); // so is an empty DbSet not null?
 
             var result = response.Select(r => new GetItemDto
             {
@@ -81,7 +71,7 @@ namespace ItemStore.WebApi.Services
             var response = await _itemRepository.Create(request);
 
             if (response == 0)
-                throw new Exception($"Something went wrong; item not created"); // nepatinka, nes techniskai id irgi gb 0. gal tada reiktu id kurt ne int, o guid
+                throw new Exception($"Something went wrong; item not created"); 
 
             return await Get(response);
         }

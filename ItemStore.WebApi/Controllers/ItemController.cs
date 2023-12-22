@@ -1,5 +1,6 @@
 ﻿using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ namespace ItemStore.WebApi.Controllers
     [Route("store/items")]
     public class ItemController : ControllerBase
     {
-        private readonly IItemService _itemService;
+        private readonly ItemService _itemService;
 
-        public ItemController(IItemService itemService) => _itemService = itemService;
+        public ItemController(ItemService itemService) => _itemService = itemService;
 
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _itemService.Get());

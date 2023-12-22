@@ -22,9 +22,9 @@ namespace ItemStore.WebApi.Repositories
             return item.Id;
         }
 
-        public async Task<int> Delete(ItemEntity item)
+        public async Task<int> Delete(int id)
         {
-            var itemToDelete = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
+            var itemToDelete = _dataContext.Items.FirstOrDefault(i => i.Id == id);
 
             itemToDelete.IsDeleted = true;
 
@@ -48,9 +48,9 @@ namespace ItemStore.WebApi.Repositories
             return await _dataContext.Items.Where(i => i.IsDeleted == false).ToListAsync();
         }
 
-        public async Task<ItemEntity?> Get(ItemEntity item)
+        public async Task<ItemEntity?> Get(int id)
         {
-            return await _dataContext.Items.FirstOrDefaultAsync(i => i.Id == item.Id && i.IsDeleted == false);
+            return await _dataContext.Items.FirstOrDefaultAsync(i => i.Id == id && i.IsDeleted == false);
         }
     }
 }
