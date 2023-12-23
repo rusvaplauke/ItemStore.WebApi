@@ -10,8 +10,8 @@ public class ItemProfile : Profile
         CreateMap<ItemEntity, GetItemDto>();
         CreateMap<ItemEntity, GetItemDto>().ReverseMap();
 
-        CreateMap<ItemEntity, GetItemDto>();
-        CreateMap<ItemEntity, GetItemDto>().ReverseMap();
+        CreateMap<ItemEntity, PostItemDto>();
+        CreateMap<ItemEntity, PostItemDto>().ReverseMap();
 
         CreateMap<ItemEntity, PutItemDto>();
         CreateMap<ItemEntity, PutItemDto>().ReverseMap();

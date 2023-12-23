@@ -5,11 +5,28 @@ using ItemStore.WebApi.Services;
 using ItemStore.WebApi.Models.DTOs;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using ItemStore.WebApi.Profiles;
+using ItemStore.WebApi.Exceptions;
 
 namespace ItemStore.UnitTests.Services;
 
 public class ItemServiceTests
 {
+    private readonly Mock<IItemRepository> _itemRepositoryMock;
+    private readonly ItemService _itemService;
+    private readonly IMapper _mapper;
+
+    public ItemServiceTests()
+    {
+        _itemRepositoryMock = new Mock<IItemRepository>();
+
+        _mapper = new Mapper(new MapperConfiguration(
+            cfg => cfg.AddProfile<ItemProfile>()));
+
+        _itemService = new ItemService(_itemRepositoryMock.Object, _mapper);
+    }
+
     [Fact]
     public async void Get_GivenValidId_ReturnsDto()
     {
@@ -17,13 +34,10 @@ public class ItemServiceTests
         int id = 1;
         ItemEntity item = new ItemEntity {Id = id, Name = "Chocolate", Price = 1.99M};
 
-        var testRepository = new Mock<IItemRepository>();
-        testRepository.Setup(m => m.Get(id)).ReturnsAsync(item);
-
-        var itemService = new ItemService(testRepository.Object);
+        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(item);
 
         //Act
-        GetItemDto result = await itemService.Get(item.Id); 
+        GetItemDto result = await _itemService.Get(item.Id); 
 
         //Assert
         result.Id.Should().Be(item.Id);
@@ -32,18 +46,15 @@ public class ItemServiceTests
     }
 
     [Fact]
-    public async void Get_GivenInvalidId_ThrowsArgumentNullException()
+    public async void Get_GivenInvalidId_ThrowsItemNotFoundException()
     {
         //Arrange
         int id = 1;
 
-        var testRepository = new Mock<IItemRepository>();
-        testRepository.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
-
-        var itemService = new ItemService(testRepository.Object);
+        _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
 
         //Act + Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(async() => await itemService.Get(id));
+        await Assert.ThrowsAsync<ItemNotFoundException>(async() => await _itemService.Get(id));
     }
 
     [Fact]
@@ -56,13 +67,10 @@ public class ItemServiceTests
             new ItemEntity() { Id = 3, Name = "Chocolate 3", Price = 1.99M }
         };
 
-        var testRepository = new Mock<IItemRepository>();
-        testRepository.Setup(m => m.Get()).ReturnsAsync(list);
-
-        var itemService = new ItemService(testRepository.Object);
+        _itemRepositoryMock.Setup(m => m.Get()).ReturnsAsync(list);
 
         //Act
-        List<GetItemDto> result = await itemService.Get();
+        List<GetItemDto> result = await _itemService.Get();
 
         //Assert
         result.Count().Should().Be(list.Count());
@@ -74,18 +82,15 @@ public class ItemServiceTests
         // this can be generated with autofixture
         //Arrange
         PostItemDto request = new PostItemDto{Name = "Chocolate", Price = 1.99M};
-        ItemEntity itemForRepo = new ItemEntity { Id = 1, Name = "Chocolate", Price = 1.99M}; 
+        ItemEntity itemForRepo = new ItemEntity { Id = 1, Name = "Chocolate", Price = 1.99M};
 
-        var testRepository = new Mock<IItemRepository>();
-        testRepository.Setup(m => m.Create(It.IsAny<ItemEntity>())).ReturnsAsync(itemForRepo.Id); //is it bc we pass by reference?
+        _itemRepositoryMock.Setup(m => m.Create(It.IsAny<ItemEntity>())).ReturnsAsync(itemForRepo.Id); //is it bc we pass by reference?
         //                                  It.IsAny<ItemEntity>(x => x.Name == itemDto.Name ) <-- nurodome sitoj vietoj konkretu pvz, su kuriom saukiam. Pagalvot, kodel tai geriau
 
-        testRepository.Setup(m => m.Get(itemForRepo.Id)).ReturnsAsync(itemForRepo);
-
-        var itemService = new ItemService(testRepository.Object);
+        _itemRepositoryMock.Setup(m => m.Get(itemForRepo.Id)).ReturnsAsync(itemForRepo);
 
         //Act
-        GetItemDto result = await itemService.Create(request);
+        GetItemDto result = await _itemService.Create(request);
 
         //Assert
         result.Id.Should().Be(itemForRepo.Id);
@@ -99,31 +104,25 @@ public class ItemServiceTests
         //Arrange
         int id = 1;
 
-        var testRepository = new Mock<IItemRepository>();
-        testRepository.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = 1, Name = "Chocolate", Price = 1.99M });
-        testRepository.Setup(m => m.Delete(id)).ReturnsAsync(1);
-
-        var itemService = new ItemService(testRepository.Object);
+        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = 1, Name = "Chocolate", Price = 1.99M });
+        _itemRepositoryMock.Setup(m => m.Delete(id)).ReturnsAsync(1);
 
         //Act
         //Assert
-        await itemService.Invoking(r => r.Delete(id)).Should().NotThrowAsync<Exception>();
-        testRepository.Verify(m => m.Delete(id), Times.Once);
+        await _itemService.Invoking(r => r.Delete(id)).Should().NotThrowAsync<Exception>();
+        _itemRepositoryMock.Verify(m => m.Delete(id), Times.Once);
     }
 
     [Fact]
-    public async void Delete_GivenInvalidId_ThrowsArgumentNullException()
+    public async void Delete_GivenInvalidId_ThrowsItemNotFoundException()
     {
         //Arrange
         int id = 1;
 
-        var testRepository = new Mock<IItemRepository>();
-        testRepository.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
-
-        var itemService = new ItemService(testRepository.Object);
+        _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
 
         //Act + Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await itemService.Get(id));
+        await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Get(id));
     }
 
     [Fact]

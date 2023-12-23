@@ -25,6 +25,8 @@ namespace ItemStore.WebApi.Services
         {
             if (await _itemRepository.Get(id) is null) 
                 throw new ItemNotFoundException(id); 
+
+            await _itemRepository.Delete(id);
         }
 
         public async Task<GetItemDto> Get(int id)
