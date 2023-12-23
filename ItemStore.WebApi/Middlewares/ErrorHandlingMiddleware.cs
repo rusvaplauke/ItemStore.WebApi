@@ -1,4 +1,5 @@
-﻿using ItemStore.WebApi.Models;
+﻿using ItemStore.WebApi.Exceptions;
+using ItemStore.WebApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -41,7 +42,7 @@ namespace ItemStore.WebApi.Middlewares
 
             switch (exception)
             {
-                case ArgumentNullException:
+                case ItemNotFoundException:
                     statusCode = (int)HttpStatusCode.NotFound;
                     break;
                 default:
