@@ -1,8 +1,11 @@
 
+using AutoMapper;
 using DbUp;
+using FluentAssertions.Common;
 using ItemStore.WebApi.Contexts;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Middlewares;
+using ItemStore.WebApi.Profiles;
 using ItemStore.WebApi.Repositories;
 using ItemStore.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,18 +25,21 @@ namespace ItemStore.WebApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<PostgreContext>(options =>
-                            options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
+            // Register services, repos
 
             builder.Services.AddScoped<IItemRepository,EFItemRepository>();
             builder.Services.AddScoped<ItemService>();
 
             builder.Services.AddScoped<IBuyingService, BuyingService>();
 
+            // DB things: Dapper, EF, DBUp
+            builder.Services.AddDbContext<PostgreContext>(options =>
+                 options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
 
             string dbConnectionString = builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new ArgumentNullException();
             builder.Services.AddTransient<IDbConnection>(sp => new NpgsqlConnection(dbConnectionString));
@@ -46,6 +52,12 @@ namespace ItemStore.WebApi
                 .LogToNowhere()
                 .Build();
             var result = upgrader.PerformUpgrade();
+
+            // AutoMapper
+
+            builder.Services.AddAutoMapper(typeof(ItemProfile));
+
+            // Serilog
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Configuration)
