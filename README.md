@@ -22,7 +22,6 @@ DONE 2. Your service should  (maybe?) be interchangable with both Dapper and EF 
 
 DONE 3. Update your application with DTO/Entity concepts.
 
-Advanced:
 DONE 1. Connect EF Core to Postgre. (Investigate Migrations)
 DONE 2. try to  use AutoMapper to map entities to dtos.
 
@@ -50,7 +49,15 @@ ADVANCED 2. Try creating Integration Tests.
 1. DONE? Use Fluent Assertions.
 2. IN PROGRESS / IMPROVE **Add Mock Verify to your tests.**
 3. DONE Use Autofixture for data generation. Autofixture.xunit2 has AutoData attribute.
-4. Add new User Controller which performs GET, GET By Id, and Create to https://jsonplaceholder.typicode.com/users
-5. Cover GetById with a unit tests.
+4. IN PROGRESS / IMPROVE Add new User Controller which performs GET, GET By Id, and Create to https://jsonplaceholder.typicode.com/users
+5. TO DO Cover GetById with a unit tests.
    
 Optional, advanced: Have basic data caching for the system (Fetch data and save into database)
+
+**2023.12.27**
+0. Finish previous tasks (tests, external api)
+1. Apply Adapter pattern on JsonPlaceholder (error handling, etc)
+2. Beautify code
+
+ADVANCED
+1. Apply Clean architecture principles.
