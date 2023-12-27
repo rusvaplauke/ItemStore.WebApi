@@ -58,7 +58,9 @@ Optional, advanced: Have basic data caching for the system (Fetch data and save 
 **2023.12.27**
 
 0. Finish previous tasks (tests, external api)
+   
 1. Apply Adapter pattern on JsonPlaceholder (error handling, etc)
+   
 2. Beautify code (exceptions, etc)
 
 ADVANCED
