@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using ItemStore.WebApi.Profiles;
 using ItemStore.WebApi.Exceptions;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using AutoFixture;
+using AutoFixture.Xunit2;
 
 namespace ItemStore.UnitTests.Services;
 
@@ -16,6 +19,7 @@ public class ItemServiceTests
     private readonly Mock<IItemRepository> _itemRepositoryMock;
     private readonly ItemService _itemService;
     private readonly IMapper _mapper;
+    private readonly Fixture _fixture;
 
     public ItemServiceTests()
     {
@@ -25,14 +29,15 @@ public class ItemServiceTests
             cfg => cfg.AddProfile<ItemProfile>()));
 
         _itemService = new ItemService(_itemRepositoryMock.Object, _mapper);
+        _fixture = new Fixture();
     }
 
-    [Fact]
-    public async void Get_GivenValidId_ReturnsDto()
+    [Theory]
+    [AutoData]
+    public async Task Get_GivenValidId_ReturnsDto(int id, string name, decimal price)
     {
         //Arrange
-        int id = 1;
-        ItemEntity item = new ItemEntity {Id = id, Name = "Chocolate", Price = 1.99M};
+        ItemEntity item = new ItemEntity {Id = id, Name = name, Price = price};
 
         _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(item);
 
@@ -46,10 +51,10 @@ public class ItemServiceTests
     }
 
     [Fact]
-    public async void Get_GivenInvalidId_ThrowsItemNotFoundException()
+    public async Task Get_GivenInvalidId_ThrowsItemNotFoundException()
     {
         //Arrange
-        int id = 1;
+        int id = _fixture.Create<int>();
 
         _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
 
@@ -58,14 +63,11 @@ public class ItemServiceTests
     }
 
     [Fact]
-    public async void Get_GivenNoId_ReturnsAllDtos()
+    public async Task Get_GivenNoId_ReturnsAllDtos()
     {
         //Arrange
-        List<ItemEntity> list = new List<ItemEntity> {
-            new ItemEntity() { Id = 1, Name = "Chocolate", Price = 1.99M },
-            new ItemEntity() { Id = 2, Name = "Chocolate 2", Price = 1.99M },
-            new ItemEntity() { Id = 3, Name = "Chocolate 3", Price = 1.99M }
-        };
+        List<ItemEntity> list = new List<ItemEntity>();
+        _fixture.AddManyTo(list,5);
 
         _itemRepositoryMock.Setup(m => m.Get()).ReturnsAsync(list);
 
@@ -77,15 +79,13 @@ public class ItemServiceTests
     }
 
     [Fact]
-    public async void Create_GivenPosItemDto_ReturnsGetItemDto()
+    public async Task Create_GivenPosItemDto_ReturnsGetItemDto()
     {
-        // this can be generated with autofixture
         //Arrange
-        PostItemDto request = new PostItemDto{Name = "Chocolate", Price = 1.99M};
-        ItemEntity itemForRepo = new ItemEntity { Id = 1, Name = "Chocolate", Price = 1.99M};
+        PostItemDto request = _fixture.Create<PostItemDto>();
+        ItemEntity itemForRepo = _fixture.Build<ItemEntity>().With(x => x.Name, request.Name).With(x => x.Price, request.Price).Create();
 
-        _itemRepositoryMock.Setup(m => m.Create(It.IsAny<ItemEntity>())).ReturnsAsync(itemForRepo.Id); //is it bc we pass by reference?
-        //                                  It.IsAny<ItemEntity>(x => x.Name == itemDto.Name ) <-- nurodome sitoj vietoj konkretu pvz, su kuriom saukiam. Pagalvot, kodel tai geriau
+        _itemRepositoryMock.Setup(m => m.Create(It.IsAny<ItemEntity>())).ReturnsAsync(itemForRepo.Id); 
 
         _itemRepositoryMock.Setup(m => m.Get(itemForRepo.Id)).ReturnsAsync(itemForRepo);
 
@@ -99,12 +99,14 @@ public class ItemServiceTests
     }
 
     [Fact]
-    public async void Delete_GivenValidId_DoesntThrowException()
+    public async Task Delete_GivenValidId_DoesntThrowException()
     {
         //Arrange
-        int id = 1;
+        int id = _fixture.Create<int>();
+        string name = _fixture.Create<string>();
+        decimal price = _fixture.Create<decimal>();
 
-        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = 1, Name = "Chocolate", Price = 1.99M });
+        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = id, Name = name, Price = price });
         _itemRepositoryMock.Setup(m => m.Delete(id)).ReturnsAsync(1);
 
         //Act
@@ -114,23 +116,59 @@ public class ItemServiceTests
     }
 
     [Fact]
-    public async void Delete_GivenInvalidId_ThrowsItemNotFoundException()
+    public async Task Delete_GivenInvalidId_ThrowsItemNotFoundException()
     {
         //Arrange
-        int id = 1;
+        int id = _fixture.Create<int>();
 
         _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
 
         //Act + Assert
-        await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Get(id));
+        await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Delete(id));
+    }
+    [Fact]
+    public async void Delete_GivenInvalidId_DoesntCallRepository ()
+    {
+        //Arrange
+        int id = _fixture.Create<int>();
+
+        _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
+
+        //Act + Assert
+        _itemRepositoryMock.Verify(m => m.Delete(id), Times.Never);
     }
 
     [Fact]
-    public async void Edit_GivenValidId_ReturnsDto()
-    { 
-        //
+    public async Task Edit_GivenValidId_ReturnsDto()
+    {
+        //Arrange
+        int id = 1;
+        string name = "Chocolate";
+        string newName = "NewChocolate";
+        decimal price = 1.99M;
+
+        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = id, Name = name, Price = price});
+        _itemRepositoryMock.Setup(m => m.Edit(It.Is<ItemEntity>(i => i.Id == id && i.Name == newName && i.Price == price))).ReturnsAsync(id);
+
+        //Act
+
+        GetItemDto result = await _itemService.Edit(new PutItemDto {Id = id, Name = newName, Price = price});
+
+        //Assert
+        result.Name.Should().Be(newName);
     }
 
     [Fact]
-    public async void Edit_GivenInvalidId_ThrowsArgumentNullException() { }
+    public async Task Edit_GivenInvalidId_ThrowsItemNotFoundException() 
+    {
+        //Arrange
+        int id = _fixture.Create<int>();
+        string name = _fixture.Create<string>();
+        decimal price = _fixture.Create<decimal>();
+
+        _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
+
+        //Act + Assert
+        await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Edit(new PutItemDto {Id = id, Name = name, Price = price }));
+    }
 }
