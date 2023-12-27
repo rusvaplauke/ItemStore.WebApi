@@ -62,5 +62,8 @@ Optional, advanced: Have basic data caching for the system (Fetch data and save 
 2. Beautify code (exceptions, etc)
 
 ADVANCED
-0. Think about introducing 'Shop' to which 'Item' belongs. --> (1) CRUD to Shop (galbut panaudot inherit?)
+0. Think about introducing 'Shop' {name, address} to which 'Item' belongs. --> 
+(1) CRUD to Shop (galbut panaudot inherit?) 
+(2) Assign 'Item' to a shop.
+(3) 'User' should be able to buy an item
 1. Apply Clean architecture principles.
