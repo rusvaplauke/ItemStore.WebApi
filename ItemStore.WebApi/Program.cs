@@ -2,6 +2,7 @@
 using AutoMapper;
 using DbUp;
 using FluentAssertions.Common;
+using ItemStore.WebApi.Clients;
 using ItemStore.WebApi.Contexts;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Middlewares;
@@ -36,6 +37,11 @@ namespace ItemStore.WebApi
             builder.Services.AddScoped<ItemService>();
 
             builder.Services.AddScoped<IBuyingService, BuyingService>();
+
+            // External API
+            builder.Services.AddHttpClient();
+            builder.Services.AddTransient<JsonPlaceholderClient>();
+            builder.Services.AddScoped<UserService>();
 
             // DB things: Dapper, EF, DBUp
             builder.Services.AddDbContext<PostgreContext>(options =>

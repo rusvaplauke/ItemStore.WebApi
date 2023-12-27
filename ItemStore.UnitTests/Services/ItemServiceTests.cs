@@ -2,15 +2,13 @@ using Moq;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.Entities;
 using ItemStore.WebApi.Services;
-using ItemStore.WebApi.Models.DTOs;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using ItemStore.WebApi.Profiles;
 using ItemStore.WebApi.Exceptions;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using AutoFixture;
 using AutoFixture.Xunit2;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 
 namespace ItemStore.UnitTests.Services;
 

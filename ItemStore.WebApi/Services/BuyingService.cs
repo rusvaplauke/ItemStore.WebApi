@@ -1,5 +1,6 @@
 ﻿using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using System.Numerics;
 
 namespace ItemStore.WebApi.Services
