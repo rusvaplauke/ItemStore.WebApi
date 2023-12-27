@@ -49,13 +49,14 @@ namespace ItemStore.WebApi.Services
             return await Get(await _itemRepository.Create(_mapper.Map<ItemEntity>(item)));
         }
 
-        public async Task<GetItemDto> Edit(PutItemDto item)
+        public async Task<GetItemDto> Edit(PutItemDto item) 
         {
             if (await _itemRepository.Get(item.Id) is null)
                 throw new ItemNotFoundException(item.Id);
 
-            return await Get(await _itemRepository.Edit(_mapper.Map<ItemEntity>(item))); 
-            // is this clear or would it be easier to read in separate lines?
+            var resultId = await _itemRepository.Edit(_mapper.Map<ItemEntity>(item));
+
+            return await Get(resultId); 
         }
     }
 }
