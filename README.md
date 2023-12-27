@@ -24,7 +24,7 @@ DONE 3. Update your application with DTO/Entity concepts.
 
 Advanced:
 DONE 1. Connect EF Core to Postgre. (Investigate Migrations)
-2. try to  use AutoMapper to map entities to dtos.
+DONE 2. try to  use AutoMapper to map entities to dtos.
 
 **2023.12.20**
 DONE Update existing ItemStore:
@@ -39,18 +39,18 @@ DONE (Advanced) Use Ef Core migrations to create new database and create schema.
 
 Update TodoStore:
 
-IN PROGRESS Cover Services with Unit tests. Use Moq and Fluent Assertions. Mark Arrange-Act-Assert
+DONE Cover Services with Unit tests. Use Moq and Fluent Assertions. Mark Arrange-Act-Assert
 
 DONE Please create Github repository and push your code to Github.
 
-Advanced:
-
-     1. Research Autofixture.
+DONE 1. Research Autofixture.
      
-     2. Try creating Integration Tests.
+ADVANCED 2. Try creating Integration Tests.
 **2023.12.22**
-1. Use Fluent Assertions. Add Mock Verify to your tests. Use Autofixture for data generation. Autofixture.xunit2 has AutoData attribute.
-2. Add new User Controller which performs GET, GET By Id, and Create to https://jsonplaceholder.typicode.com/users
-3. Cover GetById with a unit tests.
+1. DONE? Use Fluent Assertions.
+2. IN PROGRESS / IMPROVE **Add Mock Verify to your tests.**
+3. DONE Use Autofixture for data generation. Autofixture.xunit2 has AutoData attribute.
+4. Add new User Controller which performs GET, GET By Id, and Create to https://jsonplaceholder.typicode.com/users
+5. Cover GetById with a unit tests.
    
 Optional, advanced: Have basic data caching for the system (Fetch data and save into database)
