@@ -46,6 +46,7 @@ DONE 1. Research Autofixture.
      
 ADVANCED 2. Try creating Integration Tests.
 **2023.12.22**
+
 1. DONE? Use Fluent Assertions.
 2. IN PROGRESS / IMPROVE **Add Mock Verify to your tests.**
 3. DONE Use Autofixture for data generation. Autofixture.xunit2 has AutoData attribute.
@@ -55,6 +56,7 @@ ADVANCED 2. Try creating Integration Tests.
 Optional, advanced: Have basic data caching for the system (Fetch data and save into database)
 
 **2023.12.27**
+
 0. Finish previous tasks (tests, external api)
 1. Apply Adapter pattern on JsonPlaceholder (error handling, etc)
 2. Beautify code
