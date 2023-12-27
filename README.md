@@ -59,7 +59,8 @@ Optional, advanced: Have basic data caching for the system (Fetch data and save 
 
 0. Finish previous tasks (tests, external api)
 1. Apply Adapter pattern on JsonPlaceholder (error handling, etc)
-2. Beautify code
+2. Beautify code (exceptions, etc)
 
 ADVANCED
+0. Think about introducing 'Shop' to which 'Item' belongs. --> (1) CRUD to Shop (galbut panaudot inherit?)
 1. Apply Clean architecture principles.
