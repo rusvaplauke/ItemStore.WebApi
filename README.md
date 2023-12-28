@@ -61,7 +61,7 @@ Optional, advanced: Have basic data caching for the system (Fetch data and save 
    
 1. DONE Apply Adapter pattern on JsonPlaceholder (error handling, etc)
    
-2. Beautify code (exceptions, etc)
+2. DONE Beautify code (exceptions, etc)
 
 ADVANCED
 
