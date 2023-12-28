@@ -41,7 +41,8 @@ public class UserServiceTests
     public async Task Get_GivenValidId_ReturnsDto(UserEntity user)
     {
         //Arrange
-        _jsonPlaceholderClientMock.Setup(m => m.GetUserAsync(user.Id)).ReturnsAsync(user);
+        _jsonPlaceholderClientMock.Setup(m => m.GetUserAsync(user.Id))
+                .ReturnsAsync(new JsonPlaceholderResult<UserEntity> { DataItem = user, IsSuccessful = true });
 
         //Act
         GetUserDto result = await _userService.GetAsync(user.Id);
@@ -50,17 +51,15 @@ public class UserServiceTests
         result.Should().BeEquivalentTo(_mapper.Map<GetUserDto>(user));
     }
 
-    // TODO AFTER ERROR HANDLING IMPLEMENTED:
+    [Theory]
+    [AutoData]
+    public async Task Get_GivenInvalidId_ThrowsItemNotFoundException(int id)
+    {
+        //Arrange
+        _jsonPlaceholderClientMock.Setup(m => m.GetUserAsync(id))
+            .ReturnsAsync(new JsonPlaceholderResult<UserEntity> {IsSuccessful = false});
 
-    //[Theory]
-    //[AutoData]
-    //public async Task Get_GivenInvalidId_ThrowsItemNotFoundException(int id)
-    //{
-    //    //Arrange
-
-    //    _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
-
-    //    //Act + Assert
-    //    await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Get(id));
-    //}
+        //Act + Assert
+        await Assert.ThrowsAsync<JsonPlaceholderException>(async () => await _userService.GetAsync(id));
+    }
 }
