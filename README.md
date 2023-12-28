@@ -59,7 +59,7 @@ Optional, advanced: Have basic data caching for the system (Fetch data and save 
 
 0. DONE Finish previous tasks (tests, external api)
    
-1. Apply Adapter pattern on JsonPlaceholder (error handling, etc)
+1. DONE Apply Adapter pattern on JsonPlaceholder (error handling, etc)
    
 2. Beautify code (exceptions, etc)
 
