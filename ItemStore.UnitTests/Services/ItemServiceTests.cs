@@ -129,7 +129,7 @@ public class ItemServiceTests
         _itemRepositoryMock.Verify(m => m.Delete(id), Times.Never);
     }
 
-    [Fact] // how to change this with autodata so that id is preserved
+    [Fact] 
     public async Task Edit_GivenValidId_ReturnsDto()
     {
         //Arrange
@@ -154,7 +154,7 @@ public class ItemServiceTests
         _itemRepositoryMock.Verify(m => m.Edit(It.IsAny<ItemEntity>()), Times.Once);
     }
 
-    [Fact] // how to change this with autodata so that id is preserved
+    [Fact] 
     public async Task Edit_GivenInvalidId_ThrowsItemNotFoundException() 
     {
         //Arrange
