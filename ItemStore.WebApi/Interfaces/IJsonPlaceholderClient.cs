@@ -1,4 +1,4 @@
-﻿using ItemStore.WebApi.Models.DTOs.UserDtos;
+using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Models.Entities;
 
 namespace ItemStore.WebApi.Interfaces

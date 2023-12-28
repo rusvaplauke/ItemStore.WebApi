@@ -41,6 +41,7 @@ namespace ItemStore.WebApi
             // External API
             builder.Services.AddHttpClient();
             builder.Services.AddTransient<IJsonPlaceholderClient, JsonPlaceholderClient>();
+
             builder.Services.AddScoped<UserService>();
 
             // DB things: Dapper, EF, DBUp

@@ -45,11 +45,11 @@ namespace ItemStore.WebApi.Repositories
             return await _connection.QuerySingleOrDefaultAsync<int>(sql, item);
         }
 
-        public async Task<int> Edit(ItemEntity item)
+        public async Task<ItemEntity> Edit(ItemEntity item)
         {
-            string sql = "UPDATE items SET name = @Name, price = @Price WHERE id = @Id RETURNING id;";
+            string sql = "UPDATE items SET name = @Name, price = @Price WHERE id = @Id;"; //check, ar sitas veikia po pakeitimu
 
-            return await _connection.QuerySingleOrDefaultAsync<int>(sql, item);
+            return await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql, item);
         }
     }
 }

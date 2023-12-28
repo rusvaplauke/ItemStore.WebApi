@@ -8,7 +8,7 @@ namespace ItemStore.WebApi.Interfaces
         Task<List<ItemEntity>> Get();
         Task<ItemEntity?> Get(int id); 
         Task<int> Create(ItemEntity item);
-        Task<int> Edit(ItemEntity item);
+        Task<ItemEntity?> Edit(ItemEntity item);
         Task<int> Delete(int id); 
     }
 }
