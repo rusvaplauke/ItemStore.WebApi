@@ -1,100 +1,93 @@
-﻿using ItemStore.WebApi.Exceptions;
-using ItemStore.WebApi.Interfaces;
+﻿using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Models.Entities;
-using Newtonsoft.Json;
-using System.Diagnostics.Eventing.Reader;
-using System.Net.Http.Json;
-using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
-namespace ItemStore.WebApi.Clients
+namespace ItemStore.WebApi.Clients;
+
+public class JsonPlaceholderClient : IJsonPlaceholderClient
 {
-    public class JsonPlaceholderClient : IJsonPlaceholderClient
+    private IHttpClientFactory _httpClientFactory;
+
+    public JsonPlaceholderClient(IHttpClientFactory httpClientFactory)
     {
-        private IHttpClientFactory _httpClientFactory;
+        _httpClientFactory = httpClientFactory;
+    }
 
-        public JsonPlaceholderClient(IHttpClientFactory httpClientFactory)
+    public async Task<JsonPlaceholderResult<UserEntity>> GetUsersAsync() 
+    {
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
+
+        if (response.IsSuccessStatusCode)
         {
-            _httpClientFactory = httpClientFactory;
+            List<UserEntity> data = await response.Content.ReadAsAsync<List<UserEntity>>();
+
+            return new JsonPlaceholderResult<UserEntity>
+            {
+                DataItems = data,
+                IsSuccessful = true
+            };
         }
-
-        public async Task<JsonPlaceholderResult<UserEntity>> GetUsersAsync() 
+        else
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
-
-            if (response.IsSuccessStatusCode)
+            return new JsonPlaceholderResult<UserEntity>
             {
-                List<UserEntity> data = await response.Content.ReadAsAsync<List<UserEntity>>();
-
-                return new JsonPlaceholderResult<UserEntity>
-                {
-                    DataItems = data,
-                    IsSuccessful = true
-                };
-            }
-            else
-            {
-                return new JsonPlaceholderResult<UserEntity>
-                {
-                    IsSuccessful = false,
-                    ErrorMessage = response.StatusCode.ToString()
-                };
-            }
+                IsSuccessful = false,
+                ErrorMessage = response.StatusCode.ToString()
+            };
         }
+    }
 
-        public async Task<JsonPlaceholderResult<UserEntity>> GetUserAsync(int id) 
+    public async Task<JsonPlaceholderResult<UserEntity>> GetUserAsync(int id) 
+    {
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync($"https://jsonplaceholder.typicode.com/users/{id}");
+
+        if (response.IsSuccessStatusCode)
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"https://jsonplaceholder.typicode.com/users/{id}");
+            UserEntity data = await response.Content.ReadAsAsync<UserEntity>();
 
-            if (response.IsSuccessStatusCode)
+            return new JsonPlaceholderResult<UserEntity>
             {
-                UserEntity data = await response.Content.ReadAsAsync<UserEntity>();
-
-                return new JsonPlaceholderResult<UserEntity>
-                {
-                    DataItem = data,
-                    IsSuccessful = true
-                };
-            }
-            else
-            {
-                return new JsonPlaceholderResult<UserEntity>
-                {
-                    IsSuccessful = false,
-                    ErrorMessage = response.StatusCode.ToString()
-                };
-            }
+                DataItem = data,
+                IsSuccessful = true
+            };
         }
-
-        public async Task<JsonPlaceholderResult<UserEntity>> CreateUserAsync(UserEntity user) 
-
+        else
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.PostAsJsonAsync($"https://jsonplaceholder.typicode.com/users/", user);
-
-            if (response.IsSuccessStatusCode)
+            return new JsonPlaceholderResult<UserEntity>
             {
-                UserEntity data = await response.Content.ReadAsAsync<UserEntity>();
+                IsSuccessful = false,
+                ErrorMessage = response.StatusCode.ToString()
+            };
+        }
+    }
 
-                return new JsonPlaceholderResult<UserEntity>
-                {
-                    DataItem = data,
-                    IsSuccessful = true
-                };
-            }
-            else
+    public async Task<JsonPlaceholderResult<UserEntity>> CreateUserAsync(UserEntity user) 
+
+    {
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.PostAsJsonAsync($"https://jsonplaceholder.typicode.com/users/", user);
+
+        if (response.IsSuccessStatusCode)
+        {
+            UserEntity data = await response.Content.ReadAsAsync<UserEntity>();
+
+            return new JsonPlaceholderResult<UserEntity>
             {
-                return new JsonPlaceholderResult<UserEntity>
-                {
-                    IsSuccessful = false,
-                    ErrorMessage = response.StatusCode.ToString()
-                };
+                DataItem = data,
+                IsSuccessful = true
+            };
+        }
+        else
+        {
+            return new JsonPlaceholderResult<UserEntity>
+            {
+                IsSuccessful = false,
+                ErrorMessage = response.StatusCode.ToString()
+            };
 
-            }
         }
     }
 }

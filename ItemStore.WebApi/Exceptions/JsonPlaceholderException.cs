@@ -1,9 +1,9 @@
-﻿namespace ItemStore.WebApi.Exceptions
+﻿namespace ItemStore.WebApi.Exceptions;
+
+public class JsonPlaceholderException : Exception
 {
-    public class JsonPlaceholderException : Exception
+    public JsonPlaceholderException(string statusCode) : base($"Problem with the external API. Exception: {statusCode}.")
     {
-        public JsonPlaceholderException(string statusCode) : base($"Problem with the external API. Exception: {statusCode}.")
-        {
-        }
+
     }
 }

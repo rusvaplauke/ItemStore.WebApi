@@ -4,17 +4,11 @@ using AutoMapper;
 using FluentAssertions;
 using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
-using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Models.Entities;
 using ItemStore.WebApi.Profiles;
 using ItemStore.WebApi.Services;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ItemStore.UnitTests.Services;
 
@@ -41,7 +35,8 @@ public class UserServiceTests
     public async Task Get_GivenValidId_ReturnsDto(UserEntity user)
     {
         //Arrange
-        _jsonPlaceholderClientMock.Setup(m => m.GetUserAsync(user.Id)).ReturnsAsync(user);
+        _jsonPlaceholderClientMock.Setup(m => m.GetUserAsync(user.Id))
+                .ReturnsAsync(new JsonPlaceholderResult<UserEntity> { DataItem = user, IsSuccessful = true });
 
         //Act
         GetUserDto result = await _userService.GetAsync(user.Id);
@@ -50,17 +45,15 @@ public class UserServiceTests
         result.Should().BeEquivalentTo(_mapper.Map<GetUserDto>(user));
     }
 
-    // TODO AFTER ERROR HANDLING IMPLEMENTED:
+    [Theory]
+    [AutoData]
+    public async Task Get_GivenInvalidId_ThrowsItemNotFoundException(int id)
+    {
+        //Arrange
+        _jsonPlaceholderClientMock.Setup(m => m.GetUserAsync(id))
+            .ReturnsAsync(new JsonPlaceholderResult<UserEntity> {IsSuccessful = false});
 
-    //[Theory]
-    //[AutoData]
-    //public async Task Get_GivenInvalidId_ThrowsItemNotFoundException(int id)
-    //{
-    //    //Arrange
-
-    //    _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
-
-    //    //Act + Assert
-    //    await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Get(id));
-    //}
+        //Act + Assert
+        await Assert.ThrowsAsync<JsonPlaceholderException>(async () => await _userService.GetAsync(id));
+    }
 }

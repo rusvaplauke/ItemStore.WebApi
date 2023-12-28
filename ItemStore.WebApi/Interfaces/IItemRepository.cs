@@ -1,14 +1,16 @@
-﻿using ItemStore.WebApi.Models.DTOs;
-using ItemStore.WebApi.Models.Entities;
+﻿using ItemStore.WebApi.Models.Entities;
 
-namespace ItemStore.WebApi.Interfaces
+namespace ItemStore.WebApi.Interfaces;
+
+public interface IItemRepository
 {
-    public interface IItemRepository
-    {
-        Task<List<ItemEntity>> Get();
-        Task<ItemEntity?> Get(int id); 
-        Task<int> Create(ItemEntity item);
-        Task<ItemEntity?> Edit(ItemEntity item);
-        Task<int> Delete(int id); 
-    }
+    Task<List<ItemEntity>> GetAsync();
+
+    Task<ItemEntity?> GetAsync(int id); 
+
+    Task<int> CreateAsync(ItemEntity item);
+
+    Task<ItemEntity?> EditAsync(ItemEntity item);
+
+    Task<int> DeleteAsync(int id); 
 }
