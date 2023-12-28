@@ -31,7 +31,7 @@ namespace ItemStore.WebApi.Repositories
             return await _dataContext.SaveChangesAsync();  
         }
 
-        public async Task<int> Edit(ItemEntity item)
+        public async Task<ItemEntity> Edit(ItemEntity item)
         {
             var itemToEdit = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
@@ -40,7 +40,7 @@ namespace ItemStore.WebApi.Repositories
 
             await _dataContext.SaveChangesAsync();
 
-            return itemToEdit.Id;
+            return itemToEdit;
         }
 
         public async Task<List<ItemEntity>> Get()

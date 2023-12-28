@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
-using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -54,9 +54,9 @@ namespace ItemStore.WebApi.Services
             if (await _itemRepository.Get(item.Id) is null)
                 throw new ItemNotFoundException(item.Id);
 
-            var resultId = await _itemRepository.Edit(_mapper.Map<ItemEntity>(item));
+            ItemEntity result = await _itemRepository.Edit(_mapper.Map<ItemEntity>(item)); 
 
-            return await Get(resultId); 
+            return _mapper.Map<GetItemDto>(result); 
         }
     }
 }

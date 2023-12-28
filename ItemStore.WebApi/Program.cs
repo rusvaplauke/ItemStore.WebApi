@@ -2,6 +2,7 @@
 using AutoMapper;
 using DbUp;
 using FluentAssertions.Common;
+using ItemStore.WebApi.Clients;
 using ItemStore.WebApi.Contexts;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Middlewares;
@@ -37,6 +38,13 @@ namespace ItemStore.WebApi
 
             builder.Services.AddScoped<IBuyingService, BuyingService>();
 
+            builder.Services.AddScoped<IJsonPlaceholderClient, JsonPlaceholderClient>();
+
+            // External API
+            builder.Services.AddHttpClient();
+            builder.Services.AddTransient<JsonPlaceholderClient>();
+            builder.Services.AddScoped<UserService>();
+
             // DB things: Dapper, EF, DBUp
             builder.Services.AddDbContext<PostgreContext>(options =>
                  options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
@@ -56,6 +64,7 @@ namespace ItemStore.WebApi
             // AutoMapper
 
             builder.Services.AddAutoMapper(typeof(ItemProfile));
+            builder.Services.AddAutoMapper(typeof(UserProfile));
 
             // Serilog
 
