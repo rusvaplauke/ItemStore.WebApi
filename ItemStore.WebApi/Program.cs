@@ -38,6 +38,8 @@ namespace ItemStore.WebApi
 
             builder.Services.AddScoped<IBuyingService, BuyingService>();
 
+            builder.Services.AddScoped<IJsonPlaceholderClient, JsonPlaceholderClient>();
+
             // External API
             builder.Services.AddHttpClient();
             builder.Services.AddTransient<JsonPlaceholderClient>();
@@ -62,6 +64,7 @@ namespace ItemStore.WebApi
             // AutoMapper
 
             builder.Services.AddAutoMapper(typeof(ItemProfile));
+            builder.Services.AddAutoMapper(typeof(UserProfile));
 
             // Serilog
 

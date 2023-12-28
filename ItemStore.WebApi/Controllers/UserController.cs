@@ -1,4 +1,6 @@
-﻿using ItemStore.WebApi.Services;
+﻿using ItemStore.WebApi.Models.DTOs.ItemDtos;
+using ItemStore.WebApi.Models.DTOs.UserDtos;
+using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +26,12 @@ namespace ItemStore.WebApi.Controllers
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _userService.GetAsync(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] PostUserDto user)
+        {
+            return Ok(await _userService.CreateAsync(user));
         }
     }
 }

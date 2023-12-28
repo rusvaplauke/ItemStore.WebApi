@@ -40,19 +40,17 @@ public class ItemServiceTests
         _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(item);
 
         //Act
-        GetItemDto result = await _itemService.Get(item.Id); 
+        GetItemDto result = await _itemService.Get(item.Id);
 
         //Assert
-        result.Id.Should().Be(item.Id);
-        result.Name.Should().Be(item.Name);
-        result.Price.Should().Be(item.Price);
+        result.Should().BeEquivalentTo(_mapper.Map<GetItemDto>(item));
     }
 
-    [Fact]
-    public async Task Get_GivenInvalidId_ThrowsItemNotFoundException()
+    [Theory]
+    [AutoData]
+    public async Task Get_GivenInvalidId_ThrowsItemNotFoundException(int id)
     {
         //Arrange
-        int id = _fixture.Create<int>();
 
         _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
 
@@ -96,34 +94,29 @@ public class ItemServiceTests
         result.Price.Should().Be(itemForRepo.Price);
     }
 
-    [Fact]
-    public async Task Delete_GivenValidId_DoesntThrowException()
+    [Theory]
+    [AutoData]
+    public async Task Delete_GivenValidId_DoesntThrowException(ItemEntity item)
     {
-        //Arrange
-        int id = _fixture.Create<int>();
-        string name = _fixture.Create<string>();
-        decimal price = _fixture.Create<decimal>();
+        _itemRepositoryMock.Setup(m => m.Get(item.Id)).ReturnsAsync(new ItemEntity { Id = item.Id, Name = item.Name, Price = item.Price });
+        _itemRepositoryMock.Setup(m => m.Delete(item.Id)).ReturnsAsync(1);
 
-        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = id, Name = name, Price = price });
-        _itemRepositoryMock.Setup(m => m.Delete(id)).ReturnsAsync(1);
-
-        //Act
-        //Assert
-        await _itemService.Invoking(r => r.Delete(id)).Should().NotThrowAsync<Exception>();
-        _itemRepositoryMock.Verify(m => m.Delete(id), Times.Once);
+        //Act + Assert
+        await _itemService.Invoking(r => r.Delete(item.Id)).Should().NotThrowAsync<Exception>();
+        _itemRepositoryMock.Verify(m => m.Delete(item.Id), Times.Once);
     }
 
-    [Fact]
-    public async Task Delete_GivenInvalidId_ThrowsItemNotFoundException()
+    [Theory]
+    [AutoData]
+    public async Task Delete_GivenInvalidId_ThrowsItemNotFoundException(int id)
     {
         //Arrange
-        int id = _fixture.Create<int>();
-
         _itemRepositoryMock.Setup(m => m.Get(id)).Returns(Task.FromResult<ItemEntity>(null));
 
         //Act + Assert
         await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.Delete(id));
     }
+    
     [Fact]
     public async void Delete_GivenInvalidId_DoesntCallRepository ()
     {
@@ -136,7 +129,7 @@ public class ItemServiceTests
         _itemRepositoryMock.Verify(m => m.Delete(id), Times.Never);
     }
 
-    [Fact]
+    [Fact] // how to change this with autodata so that id is preserved
     public async Task Edit_GivenValidId_ReturnsDto()
     {
         //Arrange
@@ -145,18 +138,23 @@ public class ItemServiceTests
         string newName = "NewChocolate";
         decimal price = 1.99M;
 
-        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(new ItemEntity { Id = id, Name = name, Price = price});
-        _itemRepositoryMock.Setup(m => m.Edit(It.Is<ItemEntity>(i => i.Id == id && i.Name == newName && i.Price == price))).ReturnsAsync(id);
+        ItemEntity originalItem = new ItemEntity { Id = id, Name = name, Price = price };
+        ItemEntity changedItem = new ItemEntity {Id = id, Name = newName, Price = price};
+
+        _itemRepositoryMock.Setup(m => m.Get(id)).ReturnsAsync(originalItem);
+        _itemRepositoryMock.Setup(m => m.Edit(It.Is<ItemEntity>(i => i.Id == id && i.Name == newName && i.Price == price)))
+            .ReturnsAsync(changedItem);
 
         //Act
 
         GetItemDto result = await _itemService.Edit(new PutItemDto {Id = id, Name = newName, Price = price});
 
         //Assert
-        result.Name.Should().Be(newName);
+        result.Should().BeEquivalentTo(_mapper.Map<GetItemDto>(changedItem));
+        _itemRepositoryMock.Verify(m => m.Edit(It.IsAny<ItemEntity>()), Times.Once);
     }
 
-    [Fact]
+    [Fact] // how to change this with autodata so that id is preserved
     public async Task Edit_GivenInvalidId_ThrowsItemNotFoundException() 
     {
         //Arrange

@@ -54,9 +54,9 @@ namespace ItemStore.WebApi.Services
             if (await _itemRepository.Get(item.Id) is null)
                 throw new ItemNotFoundException(item.Id);
 
-            var resultId = await _itemRepository.Edit(_mapper.Map<ItemEntity>(item));
+            ItemEntity result = await _itemRepository.Edit(_mapper.Map<ItemEntity>(item)); 
 
-            return await Get(resultId); 
+            return _mapper.Map<GetItemDto>(result); 
         }
     }
 }
