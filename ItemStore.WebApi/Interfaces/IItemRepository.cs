@@ -4,13 +4,13 @@ namespace ItemStore.WebApi.Interfaces;
 
 public interface IItemRepository
 {
-    Task<List<ItemEntity>> Get();
+    Task<List<ItemEntity>> GetAsync();
 
-    Task<ItemEntity?> Get(int id); 
+    Task<ItemEntity?> GetAsync(int id); 
 
-    Task<int> Create(ItemEntity item);
+    Task<int> CreateAsync(ItemEntity item);
 
-    Task<ItemEntity?> Edit(ItemEntity item);
+    Task<ItemEntity?> EditAsync(ItemEntity item);
 
-    Task<int> Delete(int id); 
+    Task<int> DeleteAsync(int id); 
 }

@@ -14,7 +14,7 @@ public class EFItemRepository : IItemRepository
         _dataContext = dataContext;
     }
 
-    public async Task<int> Create(ItemEntity item)
+    public async Task<int> CreateAsync(ItemEntity item)
     {
         _dataContext.Items.Add(item);
         await _dataContext.SaveChangesAsync();
@@ -22,7 +22,7 @@ public class EFItemRepository : IItemRepository
         return item.Id;
     }
 
-    public async Task<int> Delete(int id)
+    public async Task<int> DeleteAsync(int id)
     {
         var itemToDelete = _dataContext.Items.FirstOrDefault(i => i.Id == id);
 
@@ -31,7 +31,7 @@ public class EFItemRepository : IItemRepository
         return await _dataContext.SaveChangesAsync();  
     }
 
-    public async Task<ItemEntity> Edit(ItemEntity item)
+    public async Task<ItemEntity> EditAsync(ItemEntity item)
     {
         var itemToEdit = _dataContext.Items.FirstOrDefault(i => i.Id == item.Id);
 
@@ -43,12 +43,12 @@ public class EFItemRepository : IItemRepository
         return itemToEdit;
     }
 
-    public async Task<List<ItemEntity>> Get()
+    public async Task<List<ItemEntity>> GetAsync()
     {
         return await _dataContext.Items.Where(i => i.IsDeleted == false).ToListAsync();
     }
 
-    public async Task<ItemEntity?> Get(int id)
+    public async Task<ItemEntity?> GetAsync(int id)
     {
         return await _dataContext.Items.FirstOrDefaultAsync(i => i.Id == id && i.IsDeleted == false);
     }

@@ -17,17 +17,17 @@ public class ItemService
         _mapper = mapper;
     }
 
-    public async Task Delete(int id) 
+    public async Task DeleteAsync(int id) 
     {
-        if (await _itemRepository.Get(id) is null) 
+        if (await _itemRepository.GetAsync(id) is null) 
             throw new ItemNotFoundException(id); 
 
-        await _itemRepository.Delete(id);
+        await _itemRepository.DeleteAsync(id);
     }
 
-    public async Task<GetItemDto> Get(int id)
+    public async Task<GetItemDto> GetAsync(int id)
     {
-        var response = await _itemRepository.Get(id);
+        var response = await _itemRepository.GetAsync(id);
 
         if (response == null)
             throw new ItemNotFoundException(id);
@@ -35,22 +35,22 @@ public class ItemService
         return _mapper.Map<GetItemDto>(response);
     }
 
-    public async Task<List<GetItemDto>> Get()
+    public async Task<List<GetItemDto>> GetAsync()
     {
-        return (await _itemRepository.Get()).Select(r => _mapper.Map<GetItemDto>(r)).ToList();
+        return (await _itemRepository.GetAsync()).Select(r => _mapper.Map<GetItemDto>(r)).ToList();
     }
 
-    public async Task<GetItemDto> Create(PostItemDto item)
+    public async Task<GetItemDto> CreateAsync(PostItemDto item)
     {
-        return await Get(await _itemRepository.Create(_mapper.Map<ItemEntity>(item)));
+        return await GetAsync(await _itemRepository.CreateAsync(_mapper.Map<ItemEntity>(item)));
     }
 
-    public async Task<GetItemDto> Edit(PutItemDto item) 
+    public async Task<GetItemDto> EditAsync(PutItemDto item) 
     {
-        if (await _itemRepository.Get(item.Id) is null)
+        if (await _itemRepository.GetAsync(item.Id) is null)
             throw new ItemNotFoundException(item.Id);
 
-        ItemEntity result = await _itemRepository.Edit(_mapper.Map<ItemEntity>(item)); 
+        ItemEntity result = await _itemRepository.EditAsync(_mapper.Map<ItemEntity>(item)); 
 
         return _mapper.Map<GetItemDto>(result); 
     }
