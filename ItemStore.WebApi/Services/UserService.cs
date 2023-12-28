@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ItemStore.WebApi.Clients;
+using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Models.Entities;
@@ -19,17 +20,32 @@ namespace ItemStore.WebApi.Services
 
         public async Task<List<GetUserDto>> GetAsync()
         {
-            return (await _client.GetUsersAsync()).Select(u => _mapper.Map<GetUserDto>(u)).ToList();
+            JsonPlaceholderResult<UserEntity> result = await _client.GetUsersAsync();
+
+            if (result.IsSuccessful == false)
+                throw new JsonPlaceholderException(result.ErrorMessage);
+
+            return (result.DataItems).Select(u => _mapper.Map<GetUserDto>(u)).ToList();
         }
 
         public async Task<GetUserDto> GetAsync(int id)
         {
-            return _mapper.Map<GetUserDto>(await _client.GetUserAsync(id));
+            JsonPlaceholderResult<UserEntity> result = await _client.GetUserAsync(id);
+
+            if (result.IsSuccessful ==  false)
+                throw new JsonPlaceholderException(result.ErrorMessage);
+            
+            return _mapper.Map<GetUserDto>(result.DataItem);
         }
 
         public async Task<GetUserDto> CreateAsync(PostUserDto user)
         {
-            return _mapper.Map<GetUserDto>(await _client.CreateUserAsync(_mapper.Map<UserEntity>(user)));
+            JsonPlaceholderResult<UserEntity> result = await _client.CreateUserAsync(_mapper.Map<UserEntity>(user));
+
+            if (result.IsSuccessful == false)
+                throw new JsonPlaceholderException(result.ErrorMessage);
+
+            return _mapper.Map<GetUserDto>(result.DataItem);
         }
     }
 }
