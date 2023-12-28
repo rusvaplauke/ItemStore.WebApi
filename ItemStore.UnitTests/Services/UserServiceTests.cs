@@ -4,17 +4,11 @@ using AutoMapper;
 using FluentAssertions;
 using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
-using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Models.Entities;
 using ItemStore.WebApi.Profiles;
 using ItemStore.WebApi.Services;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ItemStore.UnitTests.Services;
 
