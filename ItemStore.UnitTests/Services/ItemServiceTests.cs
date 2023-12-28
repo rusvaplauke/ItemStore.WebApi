@@ -11,6 +11,7 @@ using ItemStore.WebApi.Exceptions;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using AutoFixture;
 using AutoFixture.Xunit2;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 
 namespace ItemStore.UnitTests.Services;
 

@@ -45,6 +45,9 @@ namespace ItemStore.WebApi.Middlewares
                 case ItemNotFoundException:
                     statusCode = (int)HttpStatusCode.NotFound;
                     break;
+                case JsonPlaceholderException:
+                    statusCode = (int)HttpStatusCode.BadRequest;
+                    break;
                 default:
                     statusCode = (int)HttpStatusCode.InternalServerError;
                     break;

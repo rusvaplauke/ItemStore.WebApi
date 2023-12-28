@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ItemStore.WebApi.Models.DTOs
+namespace ItemStore.WebApi.Models.DTOs.ItemDtos
 {
     public class GetItemDto
     {

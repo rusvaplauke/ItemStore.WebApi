@@ -1,5 +1,5 @@
 ﻿using ItemStore.WebApi.Interfaces;
-using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

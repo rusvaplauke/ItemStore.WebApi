@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
-using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;

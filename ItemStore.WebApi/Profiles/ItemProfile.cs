@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.Entities;
 
 namespace ItemStore.WebApi.Profiles;
