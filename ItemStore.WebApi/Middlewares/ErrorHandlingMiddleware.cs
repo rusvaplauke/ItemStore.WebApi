@@ -43,6 +43,9 @@ public class ErrorHandlingMiddleware
             case JsonPlaceholderException:
                 statusCode = (int)HttpStatusCode.BadRequest;
                 break;
+            case ShopNotFoundException:
+                statusCode = (int)HttpStatusCode.NotFound;
+                break;
             default:
                 statusCode = (int)HttpStatusCode.InternalServerError;
                 break;

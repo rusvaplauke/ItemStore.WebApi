@@ -12,6 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Scripts\004 Create shop table.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\004 Create shop table.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Contexts\DataContext.cs" />
   </ItemGroup>
 

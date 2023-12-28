@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ItemStore.WebApi.Controllers;
 
 [ApiController]
-[Route("store/users")]
+[Route("users")]
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;

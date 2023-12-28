@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ItemStore.WebApi.Controllers;
 
 [ApiController]
-[Route("store/items")]
+[Route("items")]
 public class ItemController : ControllerBase
 {
     private readonly ItemService _itemService;
