@@ -30,8 +30,10 @@ public class Program
 
         // Register services, repos
 
-        builder.Services.AddScoped<IItemRepository,ItemRepository>();
+        builder.Services.AddScoped<IItemRepository, ItemRepository>();
         builder.Services.AddScoped<IShopRepository, ShopRepository>();
+        builder.Services.AddScoped<IShopItemRepository, ShopItemRepository>();
+
         builder.Services.AddScoped<ItemService>();
         builder.Services.AddScoped<ShopService>();
 

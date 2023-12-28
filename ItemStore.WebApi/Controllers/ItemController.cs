@@ -1,4 +1,5 @@
-﻿using ItemStore.WebApi.Models.DTOs.ItemDtos;
+﻿using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,5 +34,12 @@ public class ItemController : ControllerBase
     {
         await _itemService.DeleteAsync(id);
         return NoContent();
+    }
+
+    [HttpPut("{id}/assignToStore")]
+    public async Task<IActionResult> AssignToStore(ShopItemDto itemShop)
+    {
+        await _itemService.AssignToStoreAsync(itemShop);
+        return Ok();
     }
 }

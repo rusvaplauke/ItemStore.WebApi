@@ -1,6 +1,6 @@
-﻿
-CREATE TABLE user_items(
-	user_id INT,
-	item_id INT,
-	FOREIGN KEY (item_id) REFERENCES items(id)
+﻿CREATE TABLE shops (
+	id serial PRIMARY KEY,
+	name VARCHAR(50),
+	address VARCHAR(200),
+	is_deleted BOOLEAN DEFAULT FALSE
 );

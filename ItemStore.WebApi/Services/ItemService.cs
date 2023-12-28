@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
+using ItemStore.WebApi.Models.DTOs;
 using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.Entities;
 
@@ -9,11 +10,13 @@ namespace ItemStore.WebApi.Services;
 public class ItemService 
 {
     private readonly IItemRepository _itemRepository;
+    private readonly IShopItemRepository _shopItemRepository;
     private readonly IMapper _mapper;
 
-    public ItemService(IItemRepository itemRepository, IMapper mapper)
+    public ItemService(IItemRepository itemRepository, IMapper mapper, IShopItemRepository shopItemRepository)
     {
         _itemRepository = itemRepository;
+        _shopItemRepository = shopItemRepository;
         _mapper = mapper;
     }
 
@@ -53,5 +56,16 @@ public class ItemService
         ItemEntity result = await _itemRepository.EditAsync(_mapper.Map<ItemEntity>(item)); 
 
         return _mapper.Map<GetItemDto>(result); 
+    }
+
+    public async Task AssignToStoreAsync(ShopItemDto shopItem)
+    {
+        
+        
+        // check if product is assigned to store
+
+        // if yes - reassign
+
+        // if not - create new assignment
     }
 }
