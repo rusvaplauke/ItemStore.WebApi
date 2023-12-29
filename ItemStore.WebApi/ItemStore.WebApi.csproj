@@ -16,6 +16,7 @@
     <None Remove="Scripts\005 Alter - Items - add location, user.sql" />
     <None Remove="Scripts\006 shop_items create.sql" />
     <None Remove="Scripts\007 purchases - create.sql" />
+    <None Remove="Scripts\008 purchases, shop_items add PK.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
     <EmbeddedResource Include="Scripts\005 Alter - Items - add location, user.sql" />
     <EmbeddedResource Include="Scripts\006 shop_items create.sql" />
     <EmbeddedResource Include="Scripts\007 purchases - create.sql" />
+    <EmbeddedResource Include="Scripts\008 purchases, shop_items add PK.sql" />
   </ItemGroup>
 
   <ItemGroup>
