@@ -8,30 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Contexts\DataContext.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Scripts\004 Create shop table.sql" />
-    <None Remove="Scripts\005 Alter - Items - add location, user.sql" />
-    <None Remove="Scripts\006 shop_items create.sql" />
-    <None Remove="Scripts\007 purchases - create.sql" />
-    <None Remove="Scripts\008 purchases, shop_items add PK.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\004 Create shop table.sql" />
-    <EmbeddedResource Include="Scripts\005 Alter - Items - add location, user.sql" />
-    <EmbeddedResource Include="Scripts\006 shop_items create.sql" />
-    <EmbeddedResource Include="Scripts\007 purchases - create.sql" />
-    <EmbeddedResource Include="Scripts\008 purchases, shop_items add PK.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Contexts\DataContext.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Dapper" Version="2.1.24" />
@@ -55,10 +31,6 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
