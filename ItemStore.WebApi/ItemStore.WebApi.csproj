@@ -12,6 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Scripts\004 Create shop table.sql" />
+    <None Remove="Scripts\005 Alter - Items - add location, user.sql" />
+    <None Remove="Scripts\006 shop_items create.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\004 Create shop table.sql" />
+    <EmbeddedResource Include="Scripts\005 Alter - Items - add location, user.sql" />
+    <EmbeddedResource Include="Scripts\006 shop_items create.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Contexts\DataContext.cs" />
   </ItemGroup>
 

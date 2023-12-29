@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ItemStore.WebApi.Exceptions;
 using ItemStore.WebApi.Interfaces;
+using ItemStore.WebApi.Models.DTOs;
 using ItemStore.WebApi.Models.DTOs.ItemDtos;
 using ItemStore.WebApi.Models.Entities;
 
@@ -9,11 +10,15 @@ namespace ItemStore.WebApi.Services;
 public class ItemService 
 {
     private readonly IItemRepository _itemRepository;
+    private readonly IShopItemRepository _shopItemRepository;
+    private readonly IShopRepository _shopRepository;
     private readonly IMapper _mapper;
 
-    public ItemService(IItemRepository itemRepository, IMapper mapper)
+    public ItemService(IItemRepository itemRepository, IMapper mapper, IShopItemRepository shopItemRepository, IShopRepository shopRepository)
     {
         _itemRepository = itemRepository;
+        _shopItemRepository = shopItemRepository;
+        _shopRepository = shopRepository;
         _mapper = mapper;
     }
 
@@ -23,6 +28,7 @@ public class ItemService
             throw new ItemNotFoundException(id); 
 
         await _itemRepository.DeleteAsync(id);
+        await _shopItemRepository.UnassignDeletedItemAsync(id);
     }
 
     public async Task<GetItemDto> GetAsync(int id)
@@ -53,5 +59,19 @@ public class ItemService
         ItemEntity result = await _itemRepository.EditAsync(_mapper.Map<ItemEntity>(item)); 
 
         return _mapper.Map<GetItemDto>(result); 
+    }
+
+    public async Task<ShopItemDto> AssignToStoreAsync(ShopItemDto shopItem) 
+    {
+        if (await _itemRepository.GetAsync(shopItem.ItemId) is null)
+            throw new ItemNotFoundException(shopItem.ItemId);
+
+        if (await _shopRepository.GetAsync(shopItem.ShopId) is null)
+            throw new ShopNotFoundException(shopItem.ShopId);
+
+        if ((await _shopItemRepository.GetShopAsync(shopItem.ItemId)) == 0)
+                return await _shopItemRepository.AssignToShopAsync(shopItem);
+        else
+                return await _shopItemRepository.ChangeShopAsync(shopItem);
     }
 }

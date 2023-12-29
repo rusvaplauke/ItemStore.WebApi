@@ -30,8 +30,12 @@ public class Program
 
         // Register services, repos
 
-        builder.Services.AddScoped<IItemRepository,EFItemRepository>();
+        builder.Services.AddScoped<IItemRepository, ItemRepository>();
+        builder.Services.AddScoped<IShopRepository, ShopRepository>();
+        builder.Services.AddScoped<IShopItemRepository, ShopItemRepository>();
+
         builder.Services.AddScoped<ItemService>();
+        builder.Services.AddScoped<ShopService>();
 
         // External API
         builder.Services.AddHttpClient();
@@ -40,10 +44,10 @@ public class Program
         builder.Services.AddScoped<UserService>();
 
         // DB things: Dapper, EF, DBUp
-        builder.Services.AddDbContext<PostgreContext>(options =>
-             options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
+        // builder.Services.AddDbContext<PostgreContext>(options =>
+        //     options.UseNpgsql(builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new InvalidOperationException("Connection string not found.")));
 
-        string dbConnectionString = builder.Configuration.GetConnectionString("EFPostgreConnection") ?? throw new ArgumentNullException();
+        string dbConnectionString = builder.Configuration.GetConnectionString("PostgreConnection") ?? throw new ArgumentNullException();
         builder.Services.AddTransient<IDbConnection>(sp => new NpgsqlConnection(dbConnectionString));
 
         EnsureDatabase.For.PostgresqlDatabase(dbConnectionString);
@@ -59,6 +63,7 @@ public class Program
 
         builder.Services.AddAutoMapper(typeof(ItemProfile));
         builder.Services.AddAutoMapper(typeof(UserProfile));
+        builder.Services.AddAutoMapper(typeof(ShopProfile));
 
         // Serilog
 

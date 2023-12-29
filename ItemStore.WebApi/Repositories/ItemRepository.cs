@@ -44,8 +44,10 @@ public class ItemRepository : IItemRepository
 
     public async Task<ItemEntity> EditAsync(ItemEntity item)
     {
-        string sql = "UPDATE items SET name = @Name, price = @Price WHERE id = @Id;"; 
+        string sql = "UPDATE items SET name = @Name, price = @Price WHERE id = @Id RETURNING *;";
 
-        return await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql, item);
+        var result = await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql,item);
+
+        return result;
     }
 }
