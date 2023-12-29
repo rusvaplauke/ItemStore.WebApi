@@ -13,6 +13,7 @@ public class PurchaseRepository : IPurchaseRepository
     {
         _connection = connection;
     }
+
     public async Task<PurchaseDto> BuyAsync(PurchaseDto purchase)
     {
         string sql = "INSERT INTO purchases (userid, itemid) VALUES (@UserId, @ItemId) RETURNING *;";

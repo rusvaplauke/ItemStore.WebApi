@@ -11,6 +11,7 @@ namespace ItemStore.WebApi.Controllers;
 public class ShopController : ControllerBase
 {
     private readonly ShopService _shopService;
+
     public ShopController(ShopService shopService)
     {
         _shopService = shopService;
