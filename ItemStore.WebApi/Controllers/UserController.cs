@@ -1,6 +1,8 @@
-﻿using ItemStore.WebApi.Models.DTOs.UserDtos;
+﻿using ItemStore.WebApi.Models.DTOs;
+using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace ItemStore.WebApi.Controllers;
 
@@ -9,6 +11,7 @@ namespace ItemStore.WebApi.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;
+
     public UserController(UserService userService)
     {
         _userService = userService;
@@ -26,10 +29,18 @@ public class UserController : ControllerBase
         return Ok(await _userService.GetAsync(id));
     }
 
-    [HttpPost]
+    [HttpPost] 
     public async Task<IActionResult> Post([FromBody] PostUserDto user)
     {
-        return Ok(await _userService.CreateAsync(user));
+        GetUserDto createdUser = await _userService.CreateAsync(user);
+        return Created(nameof(Post), createdUser);
+    }
+
+    [HttpPost("{id}/buy")] 
+    public async Task<IActionResult> Buy([FromRoute]int id, int itemId)
+    {
+        PurchaseDto createdPurchase = await _userService.BuyAsync(new PurchaseDto {UserId = id, ItemId = itemId});
+        return Created(nameof(Post), createdPurchase);
     }
 }
 

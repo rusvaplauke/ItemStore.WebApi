@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using ItemStore.WebApi.Interfaces;
 using ItemStore.WebApi.Models.DTOs;
-using ItemStore.WebApi.Models.Entities;
 using System.Data;
 
 namespace ItemStore.WebApi.Repositories;
@@ -19,18 +18,14 @@ public class ShopItemRepository : IShopItemRepository
     {
         string sql = "INSERT INTO shop_items (shopid, itemid) VALUES (@ShopId, @ItemId) RETURNING *;";
 
-        var result = await _connection.QuerySingleOrDefaultAsync<ShopItemDto>(sql, shopItem);
-
-        return result;
+        return await _connection.QuerySingleOrDefaultAsync<ShopItemDto>(sql, shopItem);
     }
 
     public async Task<ShopItemDto> ChangeShopAsync(ShopItemDto shopItem)
     {
         string sql = "UPDATE shop_items SET shopid = @ShopId WHERE itemid = @ItemId RETURNING *;";
 
-        var result = await _connection.QuerySingleOrDefaultAsync<ShopItemDto>(sql, shopItem);
-
-        return result;
+        return await _connection.QuerySingleOrDefaultAsync<ShopItemDto>(sql, shopItem);
     }
 
     public async Task<int> GetShopAsync(int itemId)

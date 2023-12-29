@@ -33,6 +33,7 @@ public class Program
         builder.Services.AddScoped<IItemRepository, ItemRepository>();
         builder.Services.AddScoped<IShopRepository, ShopRepository>();
         builder.Services.AddScoped<IShopItemRepository, ShopItemRepository>();
+        builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 
         builder.Services.AddScoped<ItemService>();
         builder.Services.AddScoped<ShopService>();

@@ -46,6 +46,9 @@ public class ErrorHandlingMiddleware
             case ShopNotFoundException:
                 statusCode = (int)HttpStatusCode.NotFound;
                 break;
+            case PurchaseExistsException:
+                statusCode = (int)HttpStatusCode.Conflict;
+                break;
             default:
                 statusCode = (int)HttpStatusCode.InternalServerError;
                 break;

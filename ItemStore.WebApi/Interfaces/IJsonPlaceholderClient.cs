@@ -5,9 +5,9 @@ namespace ItemStore.WebApi.Interfaces;
 
 public interface IJsonPlaceholderClient
 {
-    Task<JsonPlaceholderResult<UserEntity>> CreateUserAsync(UserEntity user);
+    Task<JsonPlaceholderResult<UserEntity>> CreateAsync(UserEntity user);
 
-    Task<JsonPlaceholderResult<UserEntity>> GetUserAsync(int id);
+    Task<JsonPlaceholderResult<UserEntity>> GetAsync(int id);
 
-    Task<JsonPlaceholderResult<UserEntity>> GetUsersAsync();
+    Task<JsonPlaceholderResult<UserEntity>> GetAsync();
 }
