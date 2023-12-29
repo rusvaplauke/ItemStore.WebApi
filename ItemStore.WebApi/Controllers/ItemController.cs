@@ -51,6 +51,6 @@ public class ItemController : ControllerBase
     [HttpPut("{id}/assignToStore")]
     public async Task<IActionResult> AssignToStore([FromRoute] int id, int shopId)
     {
-        return Ok(await _itemService.AssignToStoreAsync(new ShopItemDto {ItemId = id, ShopId = shopId }));
+        return Ok(await _itemService.AssignToShopAsync(new ShopItemDto {ItemId = id, ShopId = shopId }));
     }
 }

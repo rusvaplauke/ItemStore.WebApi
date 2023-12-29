@@ -61,7 +61,7 @@ public class ItemService
         return _mapper.Map<GetItemDto>(result); 
     }
 
-    public async Task<ShopItemDto> AssignToStoreAsync(ShopItemDto shopItem) 
+    public async Task<ShopItemDto> AssignToShopAsync(ShopItemDto shopItem) 
     {
         if (await _itemRepository.GetAsync(shopItem.ItemId) is null)
             throw new ItemNotFoundException(shopItem.ItemId);

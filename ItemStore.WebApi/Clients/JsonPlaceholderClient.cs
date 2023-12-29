@@ -2,7 +2,6 @@
 using ItemStore.WebApi.Models.DTOs.UserDtos;
 using ItemStore.WebApi.Models.Entities;
 
-
 namespace ItemStore.WebApi.Clients;
 
 public class JsonPlaceholderClient : IJsonPlaceholderClient
@@ -14,7 +13,7 @@ public class JsonPlaceholderClient : IJsonPlaceholderClient
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<JsonPlaceholderResult<UserEntity>> GetUsersAsync() 
+    public async Task<JsonPlaceholderResult<UserEntity>> GetAsync() 
     {
         var client = _httpClientFactory.CreateClient();
         var response = await client.GetAsync("https://jsonplaceholder.typicode.com/users");
@@ -39,7 +38,7 @@ public class JsonPlaceholderClient : IJsonPlaceholderClient
         }
     }
 
-    public async Task<JsonPlaceholderResult<UserEntity>> GetUserAsync(int id) 
+    public async Task<JsonPlaceholderResult<UserEntity>> GetAsync(int id) 
     {
         var client = _httpClientFactory.CreateClient();
         var response = await client.GetAsync($"https://jsonplaceholder.typicode.com/users/{id}");
@@ -64,7 +63,7 @@ public class JsonPlaceholderClient : IJsonPlaceholderClient
         }
     }
 
-    public async Task<JsonPlaceholderResult<UserEntity>> CreateUserAsync(UserEntity user) 
+    public async Task<JsonPlaceholderResult<UserEntity>> CreateAsync(UserEntity user) 
 
     {
         var client = _httpClientFactory.CreateClient();

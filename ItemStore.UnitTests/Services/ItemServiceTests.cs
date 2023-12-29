@@ -15,6 +15,8 @@ namespace ItemStore.UnitTests.Services;
 public class ItemServiceTests
 {
     private readonly Mock<IItemRepository> _itemRepositoryMock;
+    private readonly Mock<IShopItemRepository> _shopItemRepositoryMock;
+    private readonly Mock<IShopRepository> _shopRepositoryMock;
     private readonly ItemService _itemService;
     private readonly IMapper _mapper;
     private readonly Fixture _fixture;
@@ -22,11 +24,13 @@ public class ItemServiceTests
     public ItemServiceTests()
     {
         _itemRepositoryMock = new Mock<IItemRepository>();
+        _shopItemRepositoryMock = new Mock<IShopItemRepository>();
+        _shopRepositoryMock = new Mock<IShopRepository>();
 
         _mapper = new Mapper(new MapperConfiguration(
             cfg => cfg.AddProfile<ItemProfile>()));
 
-        _itemService = new ItemService(_itemRepositoryMock.Object, _mapper);
+        _itemService = new ItemService(_itemRepositoryMock.Object, _mapper, _shopItemRepositoryMock.Object, _shopRepositoryMock.Object);
         _fixture = new Fixture();
     }
 
@@ -117,12 +121,11 @@ public class ItemServiceTests
         await Assert.ThrowsAsync<ItemNotFoundException>(async () => await _itemService.DeleteAsync(id));
     }
     
-    [Fact]
-    public async void Delete_GivenInvalidId_DoesntCallRepository ()
+    [Theory]
+    [AutoData]
+    public async void Delete_GivenInvalidId_DoesntCallRepository (int id)
     {
         //Arrange
-        int id = _fixture.Create<int>();
-
         _itemRepositoryMock.Setup(m => m.GetAsync(id)).Returns(Task.FromResult<ItemEntity>(null));
 
         //Act + Assert
