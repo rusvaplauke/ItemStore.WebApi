@@ -65,12 +65,12 @@ Optional, advanced: Have basic data caching for the system (Fetch data and save 
 
 ADVANCED
 
-0. Think about introducing 'Shop' {name, address} to which 'Item' belongs. -->
+DONE 0. Think about introducing 'Shop' {name, address} to which 'Item' belongs. -->
 1. 
-(1) DONE CRUD to Shop (galbut panaudot inherit?)
+DONE (1) CRUD to Shop (galbut panaudot inherit?)
 
-(2) Assign 'Item' to a shop.
+DONE (2) Assign 'Item' to a shop. _Assumption: item only belongs to 1 shop_
 
-(3) 'User' should be able to buy an item
+(3) 'User' should be able to buy an item _Assumption: multiple users can buy the same item; quantity = 0_
 
 3. Apply Clean architecture principles.
