@@ -11,13 +11,22 @@ public class ItemController : ControllerBase
 {
     private readonly ItemService _itemService;
 
-    public ItemController(ItemService itemService) => _itemService = itemService;
+    public ItemController(ItemService itemService)
+    {
+        _itemService = itemService;
+    }
 
     [HttpGet]
-    public async Task<IActionResult> Get() => Ok(await _itemService.GetAsync());
+    public async Task<IActionResult> Get()
+    {
+        return Ok(await _itemService.GetAsync());
+    }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id) => Ok(await _itemService.GetAsync(id));
+    public async Task<IActionResult> Get(int id)
+    {
+        return Ok(await _itemService.GetAsync(id));
+    }
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] PostItemDto item)

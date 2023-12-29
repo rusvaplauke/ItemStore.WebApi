@@ -17,10 +17,16 @@ public class ShopController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get() => Ok(await _shopService.GetAsync());
+    public async Task<IActionResult> Get()
+    {
+        return Ok(await _shopService.GetAsync());
+    }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id) => Ok(await _shopService.GetAsync(id));
+    public async Task<IActionResult> Get(int id)
+    {
+        return Ok(await _shopService.GetAsync(id));
+    }
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] PostShopDto shop)
