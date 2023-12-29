@@ -71,6 +71,6 @@ DONE (1) CRUD to Shop (galbut panaudot inherit?)
 
 DONE (2) Assign 'Item' to a shop. _Assumption: item only belongs to 1 shop_
 
-(3) 'User' should be able to buy an item _Assumption: multiple users can buy the same item; quantity = 0_
+(3) 'User' should be able to buy an item _Assumption: multiple users can buy the same item. Bought item is not removed from shop. Assumption: quantity is indefinite._
 
 3. Apply Clean architecture principles.
