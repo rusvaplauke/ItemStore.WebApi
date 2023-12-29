@@ -46,8 +46,6 @@ public class ItemRepository : IItemRepository
     {
         string sql = "UPDATE items SET name = @Name, price = @Price WHERE id = @Id RETURNING *;";
 
-        var result = await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql,item);
-
-        return result;
+        return await _connection.QuerySingleOrDefaultAsync<ItemEntity>(sql,item);
     }
 }

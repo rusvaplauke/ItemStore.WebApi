@@ -11,6 +11,7 @@ public class ShopService
     private readonly IShopRepository _shopRepository;
     private readonly IShopItemRepository _shopItemRepository;
     private readonly IMapper _mapper;
+
     public ShopService(IShopRepository shopRepository, IMapper mapper, IShopItemRepository shopItemRepository)
     {
         _shopRepository = shopRepository;

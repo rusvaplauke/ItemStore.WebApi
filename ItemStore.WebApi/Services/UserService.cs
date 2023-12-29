@@ -52,7 +52,7 @@ namespace ItemStore.WebApi.Services
             return _mapper.Map<GetUserDto>(result.DataItem);
         }
 
-        public async Task<PurchaseDto> BuyAsync(PurchaseDto purchase) // if user has already bought an item, don't do anything
+        public async Task<PurchaseDto> BuyAsync(PurchaseDto purchase) 
         {
             var result = await _client.GetAsync(purchase.UserId);
 
