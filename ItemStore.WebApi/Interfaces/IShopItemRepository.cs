@@ -4,5 +4,13 @@ namespace ItemStore.WebApi.Interfaces;
 
 public interface IShopItemRepository
 {
-    Task AssignToStoreAsync(ShopItemDto shopItem);
+    Task<ShopItemDto> AssignToShopAsync(ShopItemDto shopItem);
+
+    Task<int> GetShopAsync(int itemId);
+
+    Task<ShopItemDto> ChangeShopAsync(ShopItemDto shopItem);
+
+    Task UnassignDeletedItemAsync(int itemId);
+
+    Task UnassignFromDeletedShopAsync(int shopId);
 }

@@ -9,10 +9,12 @@ namespace ItemStore.WebApi.Services;
 public class ShopService
 {
     private readonly IShopRepository _shopRepository;
+    private readonly IShopItemRepository _shopItemRepository;
     private readonly IMapper _mapper;
-    public ShopService(IShopRepository shopRepository, IMapper mapper)
+    public ShopService(IShopRepository shopRepository, IMapper mapper, IShopItemRepository shopItemRepository)
     {
         _shopRepository = shopRepository;
+        _shopItemRepository = shopItemRepository;
         _mapper = mapper;
     }
 
@@ -22,6 +24,7 @@ public class ShopService
             throw new ShopNotFoundException(id);
 
         await _shopRepository.DeleteAsync(id);
+        await _shopItemRepository.UnassignFromDeletedShopAsync(id);
     }
 
     public async Task<GetShopDto> GetAsync(int id)

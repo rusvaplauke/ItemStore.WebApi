@@ -30,7 +30,10 @@ public class ShopController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Put([FromBody] PutShopDto shop) => Ok(await _shopService.EditAsync(shop));
+    public async Task<IActionResult> Put([FromBody] PutShopDto shop)
+    {
+        return Ok(await _shopService.EditAsync(shop));
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)

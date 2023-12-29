@@ -30,7 +30,7 @@ public class ShopRepository : IShopRepository
 
     public async Task<ShopEntity> EditAsync(ShopEntity shop)
     {
-        string sql = "UPDATE shops SET name = @Name, address = @Address WHERE id = @Id;";
+        string sql = "UPDATE shops SET name = @Name, address = @Address WHERE id = @Id RETURNING *;";
 
         return await _connection.QuerySingleOrDefaultAsync<ShopEntity>(sql, shop);
     }

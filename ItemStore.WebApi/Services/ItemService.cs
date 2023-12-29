@@ -11,12 +11,14 @@ public class ItemService
 {
     private readonly IItemRepository _itemRepository;
     private readonly IShopItemRepository _shopItemRepository;
+    private readonly IShopRepository _shopRepository;
     private readonly IMapper _mapper;
 
-    public ItemService(IItemRepository itemRepository, IMapper mapper, IShopItemRepository shopItemRepository)
+    public ItemService(IItemRepository itemRepository, IMapper mapper, IShopItemRepository shopItemRepository, IShopRepository shopRepository)
     {
         _itemRepository = itemRepository;
         _shopItemRepository = shopItemRepository;
+        _shopRepository = shopRepository;
         _mapper = mapper;
     }
 
@@ -26,6 +28,7 @@ public class ItemService
             throw new ItemNotFoundException(id); 
 
         await _itemRepository.DeleteAsync(id);
+        await _shopItemRepository.UnassignDeletedItemAsync(id);
     }
 
     public async Task<GetItemDto> GetAsync(int id)
@@ -58,14 +61,17 @@ public class ItemService
         return _mapper.Map<GetItemDto>(result); 
     }
 
-    public async Task AssignToStoreAsync(ShopItemDto shopItem)
+    public async Task<ShopItemDto> AssignToStoreAsync(ShopItemDto shopItem) 
     {
-        
-        
-        // check if product is assigned to store
+        if (await _itemRepository.GetAsync(shopItem.ItemId) is null)
+            throw new ItemNotFoundException(shopItem.ItemId);
 
-        // if yes - reassign
+        if (await _shopRepository.GetAsync(shopItem.ShopId) is null)
+            throw new ShopNotFoundException(shopItem.ShopId);
 
-        // if not - create new assignment
+        if ((await _shopItemRepository.GetShopAsync(shopItem.ItemId)) == 0)
+                return await _shopItemRepository.AssignToShopAsync(shopItem);
+        else
+                return await _shopItemRepository.ChangeShopAsync(shopItem);
     }
 }

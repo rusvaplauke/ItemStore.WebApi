@@ -27,7 +27,10 @@ public class ItemController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Put([FromBody] PutItemDto item) => Ok(await _itemService.EditAsync(item));
+    public async Task<IActionResult> Put([FromBody] PutItemDto item)
+    {
+        return Ok(await _itemService.EditAsync(item));
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
@@ -37,9 +40,8 @@ public class ItemController : ControllerBase
     }
 
     [HttpPut("{id}/assignToStore")]
-    public async Task<IActionResult> AssignToStore(ShopItemDto itemShop)
+    public async Task<IActionResult> AssignToStore([FromRoute] int id, int shopId)
     {
-        await _itemService.AssignToStoreAsync(itemShop);
-        return Ok();
+        return Ok(await _itemService.AssignToStoreAsync(new ShopItemDto {ItemId = id, ShopId = shopId }));
     }
 }

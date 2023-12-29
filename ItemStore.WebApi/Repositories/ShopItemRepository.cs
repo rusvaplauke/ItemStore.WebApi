@@ -15,24 +15,42 @@ public class ShopItemRepository : IShopItemRepository
         _connection = connection;
     }
 
-    public async Task AssignToStoreAsync(ShopItemDto shopItem) 
+    public async Task<ShopItemDto> AssignToShopAsync(ShopItemDto shopItem) 
     {
-        string sql = "INSERT INTO shop_items (shop_id, item_id) VALUES (@ShopId, @ItemId);";
+        string sql = "INSERT INTO shop_items (shopid, itemid) VALUES (@ShopId, @ItemId) RETURNING *;";
 
-        await _connection.QuerySingleOrDefaultAsync(sql, shopItem);
+        var result = await _connection.QuerySingleOrDefaultAsync<ShopItemDto>(sql, shopItem);
+
+        return result;
     }
 
-    public async Task ChangeStoreAsync(ShopItemDto shopItem)
+    public async Task<ShopItemDto> ChangeShopAsync(ShopItemDto shopItem)
     {
-        string sql = "UPDATE shop_items SET shop_id = @ShopId WHERE item_id = @ItemId;";
+        string sql = "UPDATE shop_items SET shopid = @ShopId WHERE itemid = @ItemId RETURNING *;";
 
-        await _connection.QuerySingleOrDefaultAsync(sql, shopItem);
+        var result = await _connection.QuerySingleOrDefaultAsync<ShopItemDto>(sql, shopItem);
+
+        return result;
     }
 
     public async Task<int> GetShopAsync(int itemId)
     {
-        string sql = "SELECT shop_id FROM shop_items WHERE item_id = @itemId";
+        string sql = "SELECT shopid FROM shop_items WHERE itemid = @itemId;";
 
-        return await _connection.QuerySingleOrDefaultAsync<int>(sql, itemId);
+        return await _connection.QuerySingleOrDefaultAsync<int>(sql, new {itemId = itemId});
+    }
+
+    public async Task UnassignFromDeletedShopAsync(int shopId)
+    {
+        string sql = "DELETE FROM shop_items WHERE shopid = @shopId;";
+
+        await _connection.ExecuteAsync(sql, new {shopId = shopId});
+    }
+
+    public async Task UnassignDeletedItemAsync(int itemId)
+    {
+        string sql = "DELETE FROM shop_items WHERE itemid = @itemId;";
+
+        await _connection.ExecuteAsync(sql, new {itemId = itemId});
     }
 }
