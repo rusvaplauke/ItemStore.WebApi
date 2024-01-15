@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports: 
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+
+  itemstore.webapi:
+    image: ${DOCKER_REGISTRY-}itemstorewebapi
+    build:
+      context: .
+      dockerfile: ItemStore.WebApi/Dockerfile
+    environment:
+      - "ConnectionStrings:PostgreConnection=host=postgres;port=5432;database=mydatabase;username=myuser;password=mypassword"
+      # CONNECTION_STRING: Host=postgres;Port=5432;Username=myuser;Password=mypassword;Database=mydatabase
+    ports: 
+      - "8080:80"
+      - "8081:81" #kodel 2 portai
+    depends_on:
+      - postgres
+
+
+
+

@@ -1,10 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <UserSecretsId>202a75f9-8941-4e9f-b327-509c81e387c6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,19 +15,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Scripts\001 Create.sql" />
+    <None Remove="Scripts\002 Alter - add soft delete.sql" />
+    <None Remove="Scripts\003 Alter - add modified.sql" />
     <None Remove="Scripts\004 Create shop table.sql" />
     <None Remove="Scripts\005 Alter - Items - add location, user.sql" />
     <None Remove="Scripts\006 shop_items create.sql" />
     <None Remove="Scripts\007 purchases - create.sql" />
-    <None Remove="Scripts\008 purchases, shop_items add PK.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\002 Alter - add soft delete.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\001 Create.sql" />
+    <EmbeddedResource Include="Scripts\003 Alter - add modified.sql" />
     <EmbeddedResource Include="Scripts\004 Create shop table.sql" />
     <EmbeddedResource Include="Scripts\005 Alter - Items - add location, user.sql" />
     <EmbeddedResource Include="Scripts\006 shop_items create.sql" />
     <EmbeddedResource Include="Scripts\007 purchases - create.sql" />
-    <EmbeddedResource Include="Scripts\008 purchases, shop_items add PK.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +56,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql" Version="8.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
