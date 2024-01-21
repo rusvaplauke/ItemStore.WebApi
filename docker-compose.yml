@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports: 
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+  itemstore.webapi:
+    image: ${DOCKER_REGISTRY-}itemstorewebapi
+    build:
+      context: .
+      dockerfile: ItemStore.WebApi/Dockerfile
+    environment:
+      - "ConnectionStrings:PostgreConnection=host=postgres;port=5432;database=mydatabase;username=myuser;password=mypassword"
+    depends_on:
+      - postgres 
