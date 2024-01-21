@@ -37,7 +37,7 @@ public class ItemRepository : IItemRepository
 
     public async Task<int> CreateAsync(ItemEntity item)
     {
-        string sql = "INSERT INTO items (name, price) VALUES (@Name, @Price) RETURNING id;";
+        string sql = "INSERT INTO items (\"Name\", \"Price\") VALUES (@Name, @Price) RETURNING id;";
 
         return await _connection.QuerySingleOrDefaultAsync<int>(sql, item);
     }
