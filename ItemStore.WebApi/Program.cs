@@ -51,7 +51,7 @@ public class Program
         string dbConnectionString = builder.Configuration.GetConnectionString("PostgreConnection") ?? throw new ArgumentNullException();
         builder.Services.AddTransient<IDbConnection>(sp => new NpgsqlConnection(dbConnectionString));
 
-        Task.Delay(5000).Wait();
+        //Task.Delay(5000).Wait();
         EnsureDatabase.For.PostgresqlDatabase(dbConnectionString);
 
         var upgrader = DeployChanges.To

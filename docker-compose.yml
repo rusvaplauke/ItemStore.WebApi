@@ -10,9 +10,12 @@ services:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
       - POSTGRES_DB=mydatabase
+    networks:
+      - mynetwork
 
   itemstore.webapi:
     image: ${DOCKER_REGISTRY-}itemstorewebapi
+    restart: always
     build:
       context: .
       dockerfile: ItemStore.WebApi/Dockerfile
@@ -20,3 +23,8 @@ services:
       - "ConnectionStrings:PostgreConnection=host=postgres;port=5432;database=mydatabase;username=myuser;password=mypassword"
     depends_on:
       - postgres 
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
