@@ -13,15 +13,15 @@ services:
 
   itemstore.webapi:
     image: ${DOCKER_REGISTRY-}itemstorewebapi
+    restart: always
     build:
       context: .
       dockerfile: ItemStore.WebApi/Dockerfile
     environment:
       - "ConnectionStrings:PostgreConnection=host=postgres;port=5432;database=mydatabase;username=myuser;password=mypassword"
-      # CONNECTION_STRING: Host=postgres;Port=5432;Username=myuser;Password=mypassword;Database=mydatabase
     ports: 
-      - "8080:80"
-      - "8081:81" #kodel 2 portai
+      - "54124:8080"
+      - "54125:8081"
     depends_on:
       - postgres
 
