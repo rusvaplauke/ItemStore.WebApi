@@ -1,3 +1,5 @@
+This was an ongoing homework project during Adform's .Net Academy. 
+
 **2023.12.18**
 
 Create an webapi for Item Store.
